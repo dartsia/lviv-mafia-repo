@@ -1,24 +1,20 @@
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
+
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 
-router.get('/', function(req, res) {
-  res.send('hello world');
-});
+let AuthController = require('../Controllers/AuthController'); 
 
-//registry
-router.get('/registry', function(req, res) {
-});
 
-router.post('/registry', function(req, res) {
+router.post('/registry', [
+  body('email').isEmail().withMessage('Email must be valid'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+], AuthController.register);
 
-});
-
-router.get('/login', function(req, res) {
-});
-
-router.post('/login', function(req, res) {
-
-});
+router.post('/login', [
+  body('email').isEmail().withMessage('Email must be valid'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+],  AuthController.loginStore);
 
 module.exports = router;
