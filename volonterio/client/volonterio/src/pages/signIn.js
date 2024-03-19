@@ -1,9 +1,23 @@
-import React from 'react';
-import SIGNIN_BG from './assets/login_bg.jpg';
+import React, { useState, useEffect } from 'react';
+import SIGNIN_BG from '../assets/login_bg.jpg';
 
 
+// onClick={() => navigate('/signUp')}
 
-const signIn = () => {
+const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  useEffect(() => {
+    setEmailError(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email));
+  }, [email]);
+
+  useEffect(() => {
+    setPasswordError(password.length < 8);
+  }, [password]);
+
   return (
     <div className="p-40 w-full h-screen flex items-start">
         {/* Створив ліву частину сторінки логування у вигляді фото */}
@@ -13,21 +27,27 @@ const signIn = () => {
         {/* Права частина сторінки логування */}
         <div className='w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
             <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Вітаємо!</h1>
-            
+
             <div className='w-full flex flex-col max-w-[650px]'>
-                <div className='w-full flex flex-col mb-2'>
-                    <h3 className='text-3xl font-semibold mb-4'>Вхід</h3>
-                    <p className='text-base mb-2'>З поверненням! Будь ласка, введіть ваші дані</p>
-                </div>
+                    <div className='w-full flex flex-col mb-2'>
+                        <h3 className='text-3xl font-semibold mb-4'>Вхід</h3>
+                        <p className='text-base mb-2'>З поверненням! Будь ласка, введіть ваші дані</p>
+                    </div>
                 <div className='w-full flex flex-col'>
                     <input 
-                        type="Email"
+                        type="email"
                         placeholder='Пошта'
-                        className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'/>
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${emailError ? 'border-red-500' : ''}`}/>
+                    {emailError && <p className="text-red-500">Введіть дійсну адресу електронної пошти.</p>}
                     <input 
                         type="password"
                         placeholder='Пароль'
-                        className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'/>
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${passwordError ? 'border-red-500' : ''}`}/>
+                    {passwordError && <p className="text-red-500">Пароль повинен містити щонайменше 8 символів.</p>}
                 </div>
                 <div className='w-full flex items-center justify-between'>
                     <div className='w-full flex items-center'>
@@ -54,4 +74,4 @@ const signIn = () => {
   )
 }
 
-export default signIn;
+export default SignIn;
