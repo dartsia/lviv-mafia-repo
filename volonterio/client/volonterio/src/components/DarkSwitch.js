@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
 
 const ThemeChanger = () => {
-  const [theme, setTheme] = useState("light");
+  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-  };
+
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.body.className = '';
+    document.body.classList.add(theme);
+  }, [theme]);
+
+  if (!mounted) return null;
 
   return (
     <div className="flex items-center">
       {theme === "dark" ? (
         <button
-          onClick={toggleTheme}
+          onClick={() => setTheme("light")}
           className="text-gray-300 rounded-full outline-none focus:outline-none">
           <span className="sr-only">Світлий режим</span>
 
@@ -25,9 +33,9 @@ const ThemeChanger = () => {
         </button>
       ) : (
         <button
-          onClick={toggleTheme}
+          onClick={() => setTheme("dark")}
           className="text-gray-500 rounded-full outline-none focus:outline-none focus-visible:ring focus-visible:ring-gray-100 focus:ring-opacity-20">
-          <span className="sr-only">Чорний режим</span>
+          <span className="sr-only">Темний режим</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -48,3 +56,6 @@ const ThemeChanger = () => {
 };
 
 export default ThemeChanger;
+
+
+
