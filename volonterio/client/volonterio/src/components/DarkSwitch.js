@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 
 const ThemeChanger = () => {
-  const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
-
-  useEffect(() => setMounted(true), []);
-
+  // When mounted on client, now we can show the UI
   useEffect(() => {
-    localStorage.setItem("theme", theme);
-    document.body.className = '';
-    document.body.classList.add(theme);
-  }, [theme]);
+    setTheme(localStorage.getItem("theme"));
+  }, []);
 
-  if (!mounted) return null;
+  const changeTheme = (t) => {
+    localStorage.setItem("theme", t);
+    setTheme(t);
+    document.documentElement.className = t;
+  };
 
   return (
     <div className="flex items-center">
       {theme === "dark" ? (
         <button
-          onClick={() => setTheme("light")}
+          onClick={() => changeTheme("light")}
           className="text-gray-300 rounded-full outline-none focus:outline-none">
           <span className="sr-only">Світлий режим</span>
 
@@ -33,7 +32,7 @@ const ThemeChanger = () => {
         </button>
       ) : (
         <button
-          onClick={() => setTheme("dark")}
+          onClick={() => changeTheme("dark")}
           className="text-gray-500 rounded-full outline-none focus:outline-none focus-visible:ring focus-visible:ring-gray-100 focus:ring-opacity-20">
           <span className="sr-only">Темний режим</span>
           <svg
@@ -56,6 +55,4 @@ const ThemeChanger = () => {
 };
 
 export default ThemeChanger;
-
-
 

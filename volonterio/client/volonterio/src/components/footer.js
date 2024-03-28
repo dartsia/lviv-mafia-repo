@@ -54,7 +54,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="">
-            <div>Слідкуйте за нами</div>
+            <div className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">Слідкуйте за нами</div>
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               {/* Можна добавити якісь посилання на ютуб наприклад */}
             </div>
