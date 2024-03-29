@@ -4,7 +4,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/volonter', {
     useUnifiedTopology: true
   });
   
-const schema = new mongoose.Schema({ name: String, age: String });
+const schema = new mongoose.Schema({ name: String, surname: String, email: String, password: String });
 
 const User = mongoose.model('User', schema);
 
