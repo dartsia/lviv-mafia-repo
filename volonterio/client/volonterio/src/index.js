@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import SignUp from './pages/signUp'
 import SignIn from './pages/signIn'
 import MainPage from './pages/mainPage'
+import AboutPage from './pages/About'
 import reportWebVitals from './reportWebVitals';
 import { Route, Routes } from "react-router-dom";
  
@@ -11,8 +12,9 @@ import { Route, Routes } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById('root'));
  root.render(
   <React.StrictMode>
-    <MainPage/>
-    {/* <SignIn/>
+    <AboutPage/>
+    {/* <MainPage/>
+    <SignIn/>
     <SignUp/> */}
   </React.StrictMode>
 );

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 const ThemeChanger = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
-  // When mounted on client, now we can show the UI
   useEffect(() => {
     setTheme(localStorage.getItem("theme"));
   }, []);
