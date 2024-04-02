@@ -4,7 +4,9 @@ const ThemeChanger = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme"));
 
   useEffect(() => {
-    setTheme(localStorage.getItem("theme"));
+    const localTheme = localStorage.getItem("theme");
+    setTheme(localTheme);
+    document.documentElement.className = localTheme;
   }, []);
 
   const changeTheme = (t) => {

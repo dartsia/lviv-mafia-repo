@@ -4,7 +4,7 @@ import ThemeChanger from "../components/DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg";
 import Container from "../components/container";
- // import BGImg from "../assets/aboutBG.jpg";
+
 
 const Navbar = () => {
     const navigation = [
@@ -98,39 +98,27 @@ const Navbar = () => {
 );
 }
 
+
 const Hero = () => {
     return(
         <>
-        {/* <div>
-          <h1 className="flex w-full items-center justify-center text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white mb-14">
-                  Трішки інформації про наш проєкт
-          </h1> 
-        </div> */}
-        <Container className="flex flex-wrap py-20 rounded-lg bg-center bg-opacity-90 bg-cover bg-blur-xl bg-[url('/src/assets/aboutBG.jpg')]">
-           <div className="flex w-full items-center justify-center"> 
-            <div className="relative w-max  mb-8">
-              <h1 className="animate-typing text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
+        <Container className="flex w-full h-full flex-wrap py-28 rounded-lg bg-center bg-opacity-90 bg-cover bg-blur-xl bg-[url('/src/assets/aboutBG.jpg')] mb-8">
+           <div className=" flex w-full items-center justify-center"> 
+            <div className="lg:w-1/2 relative w-max text-right">
+              <h1 className="mb-8 animate-typing text-4xl font-bold leading-snug tracking-tight text-indigo-600 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-700 text-right">
                 Volonterio
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center w-full">
-          <div className=" mb-8">
-            {/* <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
-                Трішки інформації про наш проєкт
-            </h1> */}
-            <p className="lg:h-1/2  lg:w-1/2 py-20 px-20 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300 animate-fade-in">
-              - це унікальна онлайн платформа, яка спрощує та координує процес надання допомоги волонтерам. Наше гасло: волонтерство доступне, організоване та ефективне для кожного.
-            </p>
-            <p className="lg:h-1/2 py-20 px-20 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300 animate-fade-in">
-              Наша мета полягає в створенні сприятливого середовища для волонтерів та організацій, де вони можуть легко знаходити одне одного та співпрацювати для досягнення спільних цілей.
-              Ми прагнемо забезпечити зручну та ефективну платформу, яка сприяє залученню більшої кількості людей до волонтерської діяльності та збільшенню впливу позитивних змін у нашому суспільстві.
-              Пошук продукту: Волонтери можуть легко створювати запити на потрібні їм ресурси. Громадяни ж у свою чергу - бачити те, що зараз потребується
-              Простота: Зручний та безкоштовний сервіс
-              Підтримка армії та цивільних
-              Профілі волонтерів та організацій: перевірені документи нашим адміністратором гарантують вам те, що ви не зустрінете шахраїв.
-            </p>
+          <div className="flex items-center w-full mt-8">
+            <div className=" lg:w-1/2 ml-auto" >
+              <p className=" mb-20 py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+                - це унікальна онлайн платформа, яка спрощує та координує процес надання допомоги волонтерам. 
+              </p>
+              <p className=" py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+                Наше гасло: волонтерство доступне, організоване та ефективне для кожного.
+              </p>
             </div>
           </div>
         </Container>
@@ -138,12 +126,66 @@ const Hero = () => {
     );
   }
 
+  <div className=" mb-8 lg:w-1/2 ">
+            <p className=" py-20 px-20 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-white animate-fade-in">
+              
+              
+            </p>
+          </div>
+
+  
+const MoreInformation = () => {
+  return (
+        <>
+          <Container className="flex flex-wrap mt-8 mb-8">
+            <div className="flex items-center w-full lg:w-1/2 ">
+              <div className="max-w-2xl mb-8">
+                <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
+                  Мета
+                </h1>
+                <p className="py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
+                  полягає в створенні сприятливого середовища для волонтерів та організацій, де вони можуть легко знаходити одне одного та співпрацювати для досягнення спільних цілей.
+                </p>
+              </div>
+            </div>
+            <div className= "flex items-center justify-center w-full lg:w-1/2">
+              <div className= "py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
+                <h1 className= "text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-4xl xl:leading-tight dark:text-white">
+                  Ми прагнемо
+                </h1>
+                <p className="mt-5 mb-8">
+                  забезпечити зручну та ефективну платформу, яка сприяє залученню більшої кількості людей до волонтерської діяльності та збільшенню впливу позитивних змін у нашому суспільстві.
+                </p>
+                <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-4xl xl:leading-tight dark:text-white">
+                  Ключові задачі
+                </h1>
+                <p>
+                  Пошук продукту: волонтери можуть легко створювати запити на потрібні їм ресурси. Громадяни ж у свою чергу - бачити те, що зараз потребується <br/>
+                  Простота: зручний та безкоштовний сервіс<br/>
+                  Підтримка армії та цивільних<br/>
+                  Профілі волонтерів та організацій: перевірені документи нашим адміністратором гарантують вам те, що ви не зустрінете шахраїв.
+                </p>
+              </div>
+            </div>
+          </Container>
+          <Container>
+            <div className="flex flex-col justify-center">
+              <div className="text-xl text-center text-gray-700 dark:text-white">
+                Сайт знаходиться у розробці
+              </div>
+            </div>
+          </Container>
+        </>
+      );
+}
+
 const About = () => {
     return (
       <div>
         <Navbar />
         <Hero />
-        <Footer />
+        <MoreInformation/>
+        <Footer /> 
       </div>
     );
   }
