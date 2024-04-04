@@ -1,14 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
-import LoginIn from './loginIn'
+import ReactDOM from 'react-dom/client';
+import SignUp from './pages/signUp'
+import SignIn from './pages/signIn'
+import MainPage from './pages/mainPage'
+import AboutPage from './pages/About'
 import reportWebVitals from './reportWebVitals';
+import { Route, Routes } from "react-router-dom";
+ 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ root.render(
   <React.StrictMode>
-    <LoginIn />
+    <AboutPage/>
+    {/* <MainPage/>
+    <SignIn/>
+    <SignUp/> */}
   </React.StrictMode>
 );
+// питання для чого ці роути. Поки не ясно мені
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/signUp" element={<SignUp />} />
+      <Route path="/signIn" element={<SignIn />} />
+    </Routes>
+  );
+};
+
+export default AppRoutes;
 reportWebVitals();
