@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SIGNUP_BG from '../assets/login_bg.jpg';
+import { Link } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -123,7 +124,7 @@ const SignUp = () => {
                 </div>
 
                 <div className='w-full  flex items-center justify-center'>
-                    <p className='text-sm font-normal text-[#060606]'>Вже маєте акаунт? <span className='font-semibold underline underline-offset-2 cursor-pointer'>Увійдіть</span></p>
+                    <p className='text-sm font-normal text-[#060606]'>Вже маєте акаунт? <Link to ="/signIn" className='font-semibold underline underline-offset-2 cursor-pointer'>Увійдіть</Link></p>
                 </div>
             </div>
         </div>

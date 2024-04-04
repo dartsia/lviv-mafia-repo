@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SIGNIN_BG from '../assets/login_bg.jpg';
+import { Link } from 'react-router-dom';
 
-
-// onClick={() => navigate('/signUp')}
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -60,14 +59,10 @@ const SignIn = () => {
                     <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
                         Увійти
                     </button>
-                    <button className='w-full text-[#060606] my-2 font-semibold bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center'>
+                    <Link to="/signUp" className='w-full text-[#060606] my-2 font-semibold bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center'>
                         Реєстрація
-                    </button>
+                    </Link>
                 </div>
-            </div>
-
-            <div className='w-full  flex items-center justify-center'>
-                <p className='tet-sm font-normal text-[#060606]'>Ще не маєте акаунту? <span className='font-semibold underline underline-offset-2 cursor-pointer'>Створіть його зараз</span></p>
             </div>
         </div>
     </div>
