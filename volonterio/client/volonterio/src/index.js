@@ -12,10 +12,11 @@ import { Route, Routes } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById('root'));
  root.render(
   <React.StrictMode>
-    <AboutPage/>
+    <SignUp/>
+    {/* <AboutPage/> */}
     {/* <MainPage/>
     <SignIn/>
-    <SignUp/> */}
+    <SignUp/>  */}
   </React.StrictMode>
 );
 // питання для чого ці роути. Поки не ясно мені
