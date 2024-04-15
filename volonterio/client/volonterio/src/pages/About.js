@@ -130,13 +130,6 @@ const Hero = () => {
     );
   }
 
-  <div className=" mb-8 lg:w-1/2 ">
-            <p className=" py-20 px-20 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-white animate-fade-in">
-              
-              
-            </p>
-          </div>
-
   
 const MoreInformation = () => {
   return (

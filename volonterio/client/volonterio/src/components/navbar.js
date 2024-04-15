@@ -1,7 +1,6 @@
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const navigation = [
