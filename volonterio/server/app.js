@@ -18,7 +18,6 @@ app.use(session({
 app.use(express.json());
 app.use('/', webRoutes);
 
-
 app.listen(PORT, () => {
   console.log(`${process.env.PORT}`);
 });

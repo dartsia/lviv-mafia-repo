@@ -14,6 +14,13 @@ const Navbar = () => {
       "Волонтери",
       "Контакти",
     ];
+    const paths = [
+      //коли будуть нові сторінки, потрібно буде добавити шлях
+      "/",
+      "/",
+      "/",
+      "/",
+    ];
     return (
         <div className="w-full">
           {/* Navbar із component, тільки видозмінений */}
@@ -66,9 +73,6 @@ const Navbar = () => {
                               {item}
                           </a>
                         ))}
-                        <a href="/" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
-                          Увійти
-                        </a>
                       </>
                     </Disclosure.Panel>
                   </div>
@@ -88,7 +92,7 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-              <a href="/" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">
+              <a href="/signIn" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">
                 Увійти
               </a>
               <ThemeChanger />
