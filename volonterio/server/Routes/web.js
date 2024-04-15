@@ -18,9 +18,17 @@ router.post('/registry', (req, res) => {
 router.post('/login', [
   body('email').isEmail().withMessage('Email must be valid'),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
-], AuthController.loginStore);
+], AuthController.login);
 
 router.get('/users', UserController.index);
+
+router.get('/status', (req, res) => {
+  if (req.session.userId) {
+      res.send('User is logged in');
+  } else {
+      res.send('User is not logged in');
+  }
+});
 
 
 module.exports = router;
