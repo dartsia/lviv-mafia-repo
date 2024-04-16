@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SIGNUP_BG from '../assets/login_bg.jpg';
+import SIGNUP_BG from '../assets/photo1.jpg';
 import { Link } from 'react-router-dom';
 
 
