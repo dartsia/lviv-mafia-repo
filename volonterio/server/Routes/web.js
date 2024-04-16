@@ -4,7 +4,9 @@ const { body } = require('express-validator');
 
 const AuthController = require('../Controllers/AuthController');
 const UserController = require('../Controllers/UserController');
+const productController = require('../Controllers/ProductController');
 const signUpValidation = require('../Validators/AuthValidator/signUpValidator');
+const storageFile = require('../Services/StorageFile');
 
 router.post('/registry', (req, res) => {
   const errors = signUpValidation(req);
@@ -29,6 +31,21 @@ router.get('/status', (req, res) => {
       res.send('User is not logged in');
   }
 });
+
+
+// router.get('/products', productController.index);
+
+
+router.post('/products', 
+  storageFile.single('file'),
+  [
+    body('title').notEmpty().withMessage('Title is required'),
+    body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),
+  ], 
+  productController.store
+);
+
+
 
 
 module.exports = router;

@@ -1,7 +1,6 @@
 function signUpValidation(request) {
     let name = request.body.name;
     let surname = request.body.surname;
-    let email = request.body.email;
     let password = request.body.password;
     let confirmPassword = request.body.confirmedPassword;
     
