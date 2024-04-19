@@ -6,6 +6,8 @@ import SignUp from './pages/signUp'
 import SignIn from './pages/signIn'
 import MainPage from './pages/mainPage'
 import AboutPage from './pages/About'
+import Catalog from './pages/catalog_product'
+import DonatePage from './pages/donate';
 import reportWebVitals from './reportWebVitals';
 
 const App = () => {
@@ -13,7 +15,9 @@ const App = () => {
     <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/donate" element={<DonatePage/>} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/catalog" element={<Catalog />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} />
         </Routes>

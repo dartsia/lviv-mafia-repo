@@ -30,7 +30,7 @@ const SignIn = () => {
     } catch (error) {
         console.error(error);
     }
-    };
+};
 
   useEffect(() => {
     setEmailError(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email));

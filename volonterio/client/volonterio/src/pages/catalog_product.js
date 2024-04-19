@@ -1,12 +1,14 @@
-import React from 'react'
-import product_card from '../data/product_data'
-
+import React from 'react';
+import Footer from '../components/footer';
+import Navbar from '../components/navbar'
+import product_card from '../data/product_data';
+  
 const MainContent = () =>{
     console.log(product_card);
     const listItems = product_card.map((item)=>
         <div className='card' key={item.id}>
-            <div className='card_img'>
-                <img src={item.thumb} />
+            <div className='card_img' >
+                <img src={item.image}/>
             </div>
             <div className='card_header'>
                 <h2>{item.product_name}</h2>
@@ -19,7 +21,16 @@ const MainContent = () =>{
         <div className="main_content">
             {listItems}
         </div>
-    )
+    );
 }
 
-export default MainContent
+const catalog_product = () =>{
+    return (
+        <div>
+            <Navbar />
+            <MainContent />
+            <Footer />
+        </div>
+    );
+}
+export default catalog_product

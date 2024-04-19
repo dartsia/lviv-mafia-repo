@@ -1,17 +1,21 @@
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
-
+ 
 const Navbar = () => {
   const navigation = [
     // "Ще щось можна добавити",
     "Список товарів",
+    "Додати новий товар",
+    "Відкриті збори",
     "Волонтери",
     "Про проєкт",
     "Контакти"
   ];
   const paths = [
-    "/",
+    "/catalog",
+    "/create_product",
+    "/donate",
     "/",
     "/about",
     "/",
@@ -84,9 +88,10 @@ const Navbar = () => {
                 </a>
               </li>
             ))}
+            
           </ul>
         </div>
-        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
+        <div className="hidden mr-3 space-x-4 lg:flex nav__item pl-16">
           <a href="/signIn" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">
             Увійти
           </a>
