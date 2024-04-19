@@ -1,21 +1,23 @@
-import ThemeChanger from "./DarkSwitch";
+import React from "react";
+import Footer from "../components/footer";
+import Carousel from '../components/Carousel';
+
+import ThemeChanger from "../components/DarkSwitch";
 import { Disclosure } from "@headlessui/react";
-import Logo from "../assets/logo.svg"
+import Logo from "../assets/logo.svg";
  
 const Navbar = () => {
   const navigation = [
     // "Ще щось можна добавити",
     "Список товарів",
     "Додати новий товар",
-    "Відкриті збори",
     "Волонтери",
     "Про проєкт",
     "Контакти"
   ];
   const paths = [
-    "/catalog",
+    "/",
     "/create_product",
-    "/donate",
     "/",
     "/about",
     "/",
@@ -102,4 +104,18 @@ const Navbar = () => {
   );
 }
 
-export default Navbar;
+const DonatePage = () => {
+  return (
+    <div>
+      <Navbar />
+      <Carousel>
+            <div className="flex items-center justify-center select-none bg-blue-600"> Інформація про 1 збір</div>
+            <div className="flex items-center justify-center select-none bg-yellow-400"> Інформація про 2 збір</div>
+            <div className="flex items-center justify-center select-none bg-green-500"> Інформація про 3 збір</div>
+      </Carousel>
+      <Footer />
+    </div>
+  );
+}
+
+export default DonatePage;
