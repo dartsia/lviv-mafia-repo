@@ -1,11 +1,15 @@
 import React from "react";
 import Footer from "../components/footer";
-import Carousel from '../components/Carousel';
-
+import '../index.css';
+import photo1 from '../assets/test_carousel_3.jpeg';
+import photo2 from '../assets/test_carousel_2.jpg';
+import photo3 from '../assets/test_carousel.jpeg';
+import TEST4 from '../assets/aboutBG.jpg';
 import ThemeChanger from "../components/DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg";
- 
+import { Carousel } from 'react-responsive-3d-carousel' 
+
 const Navbar = () => {
   const navigation = [
     // "Ще щось можна добавити",
@@ -108,11 +112,15 @@ const DonatePage = () => {
   return (
     <div>
       <Navbar />
+      <div>
+        <h1 className="flex items-center justify-center text-6xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white"> Сторінка активних зборів</h1>
+      </div>
       <Carousel>
-            <div className="flex items-center justify-center select-none bg-blue-600"> Інформація про 1 збір</div>
-            <div className="flex items-center justify-center select-none bg-yellow-400"> Інформація про 2 збір</div>
-            <div className="flex items-center justify-center select-none bg-green-500"> Інформація про 3 збір</div>
-      </Carousel>
+        <img src= {photo1} alt="example-image-1" />
+        <img src= {photo2} alt="example-image-1" />
+        <img src= {photo3} alt="example-image-2" />
+        <img src= {TEST4} alt="example-image-2" />
+    </Carousel>
       <Footer />
     </div>
   );
