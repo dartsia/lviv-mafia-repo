@@ -1,6 +1,7 @@
 import Container from "./container";
 import heroImg from "../assets/hero.jpg";
 
+
 const Hero = () => {
   return (
     <>

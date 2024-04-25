@@ -7,20 +7,24 @@ import Container from "../components/container";
 
 
 const Navbar = () => {
-    const navigation = [
-      // "Ще щось можна добавити",
-      "Головна сторінка",
-      "Список товарів",
-      "Волонтери",
-      "Контакти",
-    ];
-    const paths = [
-      //коли будуть нові сторінки, потрібно буде добавити шлях
-      "/",
-      "/",
-      "/",
-      "/",
-    ];
+  const navigation = [
+    // "Ще щось можна добавити",
+    "Головна сторінка",
+    "Список товарів",
+    "Додати новий товар",
+    "Відкриті збори",
+    "Волонтери",
+    "Контакти"
+  ];
+  const paths = [
+    "/",
+    "/catalog",
+    "/create_product",
+    "/donate",
+    "/",
+    "/",
+  ];
+
     return (
         <div className="w-full">
           {/* Navbar із component, тільки видозмінений */}
@@ -129,13 +133,6 @@ const Hero = () => {
       </>
     );
   }
-
-  <div className=" mb-8 lg:w-1/2 ">
-            <p className=" py-20 px-20 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-white animate-fade-in">
-              
-              
-            </p>
-          </div>
 
   
 const MoreInformation = () => {
