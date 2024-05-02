@@ -4,12 +4,12 @@ import ThemeChanger from "../components/DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg";
 import Container from "../components/container";
+import bgImage from '../assets/aboutBG.jpg';
 
 
 const Navbar = () => {
   const navigation = [
     // "Ще щось можна добавити",
-    "Головна сторінка",
     "Список товарів",
     "Додати новий товар",
     "Відкриті збори",
@@ -17,7 +17,6 @@ const Navbar = () => {
     "Контакти"
   ];
   const paths = [
-    "/",
     "/catalog",
     "/create_product",
     "/donate",
@@ -107,32 +106,60 @@ const Navbar = () => {
 }
 
 
-const Hero = () => {
-    return(
-        <>
-        <Container className="flex w-full h-full flex-wrap py-28 rounded-lg bg-center bg-opacity-90 bg-cover bg-blur-xl bg-[url('/src/assets/aboutBG.jpg')] mb-8">
-           <div className=" flex w-full items-center justify-center"> 
-            <div className="lg:w-1/2 relative w-max text-right">
-              <h1 className="mb-8 animate-typing text-4xl font-bold leading-snug tracking-tight text-indigo-600 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-700 text-right">
-                Volonterio
-              </h1>
-            </div>
-          </div>
+// const Hero = () => {
+//     return(
+//         <>
+//         <Container className="flex w-full h-full flex-wrap py-28 rounded-lg bg-center bg-opacity-90 bg-cover bg-blur-xl bg-[url('/src/assets/aboutBG.jpg')] mb-8">
+//            <div className=" flex w-full items-center justify-center"> 
+//             <div className="lg:w-1/2 relative w-max text-right">
+//               <h1 className="mb-8 animate-typing text-4xl font-bold leading-snug tracking-tight text-indigo-600 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-700 text-right">
+//                 Volonterio
+//               </h1>
+//             </div>
+//           </div>
 
-          <div className="flex items-center w-full mt-8">
-            <div className=" lg:w-1/2 ml-auto" >
-              <p className=" mb-20 py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
-                - це унікальна онлайн платформа, яка спрощує та координує процес надання допомоги волонтерам. 
-              </p>
-              <p className=" py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
-                Наше гасло: волонтерство доступне, організоване та ефективне для кожного.
-              </p>
-            </div>
+//           <div className="flex items-center w-full mt-8">
+//             <div className=" lg:w-1/2 ml-auto" >
+//               <p className=" mb-20 py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+//                 - це унікальна онлайн платформа, яка спрощує та координує процес надання допомоги волонтерам. 
+//               </p>
+//               <p className=" py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+//                 Наше гасло: волонтерство доступне, організоване та ефективне для кожного.
+//               </p>
+//             </div>
+//           </div>
+//         </Container>
+//       </>
+//     );
+//   }
+
+const Hero = () => {
+  return(
+      <>
+      <Container className="flex w-full h-full flex-wrap py-28 rounded-lg bg-center bg-opacity-90 bg-cover bg-blur-xl bg-[url('/src/assets/aboutBG.jpg')] mb-8">
+        <div className="flex w-full items-center justify-center"> 
+          <div className="lg:w-1/2 w-max text-center ml-auto">
+            <h1 className="mb-8 text-4xl font-bold leading-snug tracking-tight text-indigo-600 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-indigo-700">
+              Volonterio
+            </h1>
           </div>
-        </Container>
-      </>
-    );
-  }
+        </div>
+
+        <div className="flex items-center w-full mt-8">
+          <div className="lg:w-1/2 ml-auto" >
+            <p className="mb-20 py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+              - це унікальна онлайн платформа, яка спрощує та координує процес надання допомоги волонтерам. 
+            </p>
+            <p className="py-10 px-10 text-lg leading-normal lg:text-xl xl:text-2xl text-white animate-fade-in bg-black bg-opacity-50 rounded-lg mr-10">
+              Наше гасло: волонтерство доступне, організоване та ефективне для кожного.
+            </p>
+          </div>
+        </div>
+      </Container>
+    </>
+  );
+}
+
 
   
 const MoreInformation = () => {

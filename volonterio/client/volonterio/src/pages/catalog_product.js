@@ -8,7 +8,6 @@ import Logo from "../assets/logo.svg";
 const Navbar = () => {
   const navigation = [
     // "Ще щось можна добавити",
-    "Головна сторінка",
     "Додати новий товар",
     "Відкриті збори",
     "Волонтери",
@@ -16,7 +15,6 @@ const Navbar = () => {
     "Контакти"
   ];
   const paths = [
-    "/",
     "/create_product",
     "/donate",
     "/",
