@@ -45,7 +45,14 @@ router.post('/products',
   productController.store
 );
 
-
+router.get('/product-info/:id', 
+  // storageFile.single('file'),
+  // [
+  //   body('title').notEmpty().withMessage('Title is required'),
+  //   body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),
+  // ], 
+  productController.show
+);
 
 
 module.exports = router;
