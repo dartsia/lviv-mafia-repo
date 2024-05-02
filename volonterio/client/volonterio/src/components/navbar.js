@@ -3,7 +3,7 @@ import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
 
-const Navbar = () => {
+const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
   const [name, setUserName] = useState(''); //для імені користувача
@@ -29,26 +29,6 @@ const Navbar = () => {
       setIsLoggingOut(false);
     });
   };
-
-  const navigation = [
-    "Список товарів",
-    "Додати позицію",
-    "Відкриті збори",
-    "Про проєкт",
-    "Більше",
-  ];
-  const moreNavigation = [
-    "Волонтери",
-    "Контакти",
-  ];
-  const paths = [
-    "/catalog",
-    "/create_product",
-    "/donate",
-    "/about",
-    "/",
-    "/",
-  ];
 
   useEffect(() => {
     let timer;
@@ -167,7 +147,7 @@ if (isLoggedIn) {
                   <ul className="absolute w-32 py-2 mt-2 space-y-2 text-gray-800 bg-white border border-gray-100 rounded-md shadow-lg dark:text-gray-300 dark:bg-gray-800">
                     {moreNavigation.map((item, index) => (
                       <li key={index}>
-                        <a href="/" className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
+                        <a href={morePaths[index]} className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
                           {item}
                         </a>
                       </li>

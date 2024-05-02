@@ -3,10 +3,33 @@ import Hero from "../components/hero";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
+const navigation = [
+  "Список товарів",
+  "Додати позицію",
+  "Відкриті збори",
+  "Про проєкт",
+  "Більше",
+];
+const moreNavigation = [
+  "Волонтери",
+  "Контакти",
+];
+const paths = [
+  "/catalog",
+  "/create_product",
+  "/donate",
+  "/about",
+  ""
+];
+const morePaths = [
+  "/",
+  "/Contacts",
+];
+
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar navigation={navigation} moreNavigation={moreNavigation} paths={paths} morePaths={morePaths} />
       <Hero />
       <Footer />
     </div>
