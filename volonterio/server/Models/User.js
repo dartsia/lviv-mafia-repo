@@ -4,7 +4,7 @@ mongoose.connect('mongodb+srv://darchyk:l0veUkraine@volonterio-db.wkly9eh.mongod
     useUnifiedTopology: true
   });
   
-const schema = new mongoose.Schema({ name: String, surname: String, email: String, password: String }, { collection: 'Users' });
+const schema = new mongoose.Schema({ name: String, surname: String, email: String, password: String, verified: {type: Boolean, default: false} }, { collection: 'Users' });
 
 const User = mongoose.model('User', schema);
 
