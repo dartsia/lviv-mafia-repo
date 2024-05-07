@@ -17,7 +17,10 @@ class UserController {
 
             await User.updateOne({ _id: user._id }, { verified: true });
 
-            res.status(200).send({ message: "Email verified." });
+            res.redirect("http://localhost:3000/");
+            // res.writeHead(301, {
+            //     Location: "http://localhost:3000/"
+            // }).send({ message: "Email verified." });
         } catch (error) {
             console.log(error);
             res.status(500).send('Error Server');
