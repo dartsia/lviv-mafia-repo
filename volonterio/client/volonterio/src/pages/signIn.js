@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SIGNIN_BG from '../assets/photo1.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
@@ -9,6 +9,8 @@ const SignIn = () => {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
 
@@ -25,8 +27,17 @@ const SignIn = () => {
             },
             body: JSON.stringify(userData)
         });
-        const data = await response.json();
-        console.log(data);
+        if (response.ok) {
+            const text = await response.text();
+            navigate('/'); // Перенаправити на головну сторінку
+            try {
+                const data = JSON.parse(text);
+                console.log(data);
+            }
+            catch (error) {
+                console.log(text);
+            }
+        }
     } catch (error) {
         console.error(error);
     }

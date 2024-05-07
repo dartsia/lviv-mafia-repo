@@ -10,6 +10,8 @@ import Catalog from './pages/catalog_product'
 import DonatePage from './pages/donate';
 import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
+import Contacts from './pages/Contacts';
+import ProductDetail  from './pages/ProductDetailPage';
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} /> 
           <Route path="/AddProduct" element={<AddProduct />} />
+          <Route path="/Contacts" element={<Contacts />} />
+        <Route path="/ProductDetail" element={<ProductDetail  />} />
         </Routes>
     </Router>
   );
