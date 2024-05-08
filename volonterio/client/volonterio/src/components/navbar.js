@@ -2,8 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
+import Modal from "../modal/modal";
+import SignIn from '../pages/signIn';
 
 const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
+  const [modalActive, setModalActive] = useState(false); //модальне вікно
+
   const [isHovered, setIsHovered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
   const [name, setUserName] = useState(''); //для імені користувача
@@ -13,7 +17,7 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
   const handleLogout = () => {
     setIsLoggingOut(true);
     fetch('/logout', {
-      method: 'POST',
+      method: 'GET',
 
     })
     .then(response => {
@@ -73,7 +77,12 @@ if (isLoggedIn) {
     </>
   );
 } else {
-  loginButton = <a href="/signIn" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Увійти</a>;
+  loginButton = (
+    <>
+    <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
+    <Modal active={modalActive} setActive={setModalActive}><SignIn setModalActive={setModalActive}/></Modal>
+    </>
+  );
 }
 
 

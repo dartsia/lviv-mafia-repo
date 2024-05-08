@@ -1,8 +1,13 @@
 import Container from "./container";
 import heroImg from "../assets/hero.jpg";
-
+import Modal from "../modal/modal";
+import { useState } from "react";
+import SignUp from "../pages/signUp"
 
 const Hero = () => {
+
+  const [modalActive, setModalActive] = useState(false);
+
   return (
     <>
       <Container className="flex flex-wrap ">
@@ -19,12 +24,14 @@ const Hero = () => {
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
               <a
-                href="/signUp"
+                // href="/signUp"
                 target="_blank"
                 rel="noopener"
-                className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md ">
+                onClick={()=>setModalActive(true)}
+                className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md cursor-pointer">
                 Створити обліковий запис
               </a>
+              <Modal active={modalActive} setActive={setModalActive}><SignUp setModalActive={setModalActive}/></Modal>
               <a
                 href="https://github.com/dartsia/lviv-mafia-repo"
                 target="_blank"

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SIGNUP_BG from '../assets/photo1.jpg';
-import { Link } from 'react-router-dom';
 
 
-const SignUp = () => {
+const SignUp = ({setModalActive}) => {
 
   const [name, set_name] = useState('');
   const [surname, set_surname] = useState('');
@@ -37,8 +36,13 @@ const SignUp = () => {
             },
             body: JSON.stringify(userData)
         });
-        const data = await response.json();
-        console.log(data);
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setModalActive(false); // закрити модальне вікно
+            window.location.reload();
+        }
+
     } catch (error) {
         console.error(error);
     }
@@ -57,13 +61,13 @@ const SignUp = () => {
   }, [password, confirmedPassword]);
 
   return (
-        <div className="p-40 w-full h-screen flex items-start">
+        <div className="pb-60 w-full h-screen flex items-start">
             {/* Ліва частина сторінки з фото */}
             <div className='relative w-1/2 h-full flex flex-col'>
                     <img src={SIGNUP_BG} alt="SignUp_bg" className="w-full h-full" />
             </div>
             {/* Права частина сторінки з формою реєстрації */}
-            <div className='w-1/2 h-full bg-[#f5f5f5] flex flex-col p-10 justify-between items-center'>
+            <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-10 justify-between items-center'>
                 <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Реєстрація</h1>
                 <div className='w-full flex flex-col max-w-[650px]'>
                     <div className='w-full flex flex-col mb-2'>
@@ -121,10 +125,6 @@ const SignUp = () => {
                             Зареєструватися
                         </button>
                     </div>
-                </div>
-
-                <div className='w-full  flex items-center justify-center'>
-                    <p className='text-sm font-normal text-[#060606]'>Вже маєте акаунт? <Link to ="/signIn" className='font-semibold underline underline-offset-2 cursor-pointer'>Увійдіть</Link></p>
                 </div>
             </div>
         </div>

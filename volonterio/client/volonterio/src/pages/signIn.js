@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import SIGNIN_BG from '../assets/photo1.jpg';
-import { Link, useNavigate } from 'react-router-dom';
 
+const SignIn = ({setModalActive}) => {
 
-const SignIn = () => {
+    const [modalActive] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
 
@@ -29,7 +28,8 @@ const SignIn = () => {
         });
         if (response.ok) {
             const text = await response.text();
-            navigate('/'); // Перенаправити на головну сторінку
+            setModalActive(false); // закрити модальне вікно
+            window.location.reload();
             try {
                 const data = JSON.parse(text);
                 console.log(data);
@@ -52,13 +52,13 @@ const SignIn = () => {
   }, [password]);
 
   return (
-    <div className="p-40 w-full h-screen flex items-start">
+    <div className="pb-60 w-full h-screen flex items-start">
         {/* Створив ліву частину сторінки логування у вигляді фото */}
         <div className='relative w-1/2 h-full flex flex-col'>
             <img src={SIGNIN_BG} alt="loging_bg" className="w-full h-full" />
         </div>
         {/* Права частина сторінки логування */}
-        <div className='w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
+        <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
             <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Вітаємо!</h1>
 
             <div className='w-full flex flex-col max-w-[650px]'>
@@ -93,9 +93,6 @@ const SignIn = () => {
                     <button onClick={handleSubmit} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
                         Увійти
                     </button>
-                    <Link to="/signUp" className='w-full text-[#060606] my-2 font-semibold bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center'>
-                        Реєстрація
-                    </Link>
                 </div>
             </div>
         </div>
