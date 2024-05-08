@@ -110,6 +110,18 @@ class AuthController {
             res.status(500).send({ message: err.message });
         }
     };
+
+    logout(req, res) {
+        if(req.session.userId){
+            delete req.session.userId;
+            
+            res.status(200).send({ message: "You have successfully exited" });
+
+        }
+        else {
+            res.status(200).send({ message: "You are not authorized anyway" });
+        }
+    }
 }
 
 module.exports = new AuthController();

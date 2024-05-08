@@ -69,5 +69,6 @@ router.get('/product-info/:id',
   productController.show
 );
 
+router.get('/logout', AuthController.logout);
 
 module.exports = router;
