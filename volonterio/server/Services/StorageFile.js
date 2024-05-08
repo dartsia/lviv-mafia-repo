@@ -1,9 +1,10 @@
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-
+require('dotenv').config();
 class S3Service {
     constructor() {
+        console.log("AWS Region:", process.env.AWS_DEFAULT_REGION);
         this.s3Client = new S3Client({
             region: process.env.AWS_DEFAULT_REGION,
             credentials: {

@@ -8,6 +8,7 @@ class ProductController {
 }
 
     async store(req, res) {
+        console.log(1)
         const { title, organization, amount, description, characteristic } = req.body;
         const file = req.uploadedFileName || ''; 
     
