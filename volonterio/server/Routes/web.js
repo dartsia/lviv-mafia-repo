@@ -6,9 +6,15 @@ const AuthController = require('../Controllers/AuthController');
 const UserController = require('../Controllers/UserController');
 const productController = require('../Controllers/ProductController');
 const signUpValidation = require('../Validators/AuthValidator/signUpValidator');
-const storageFile = require('../Services/StorageFile');
+const s3Service = require('../Services/StorageFile');
+const authMiddleware = require('../Middleware/AuthMiddleware');
 
-router.post('/registry', (req, res) => {
+
+
+router.post(
+  '/registry',
+  s3Service.createUpload('volonterio-storage', 'users/avatar').single('file'),
+   (req, res) => {
   const errors = signUpValidation(req);
   if (errors.length > 0) {
     return res.status(400).json({ errors: errors });
@@ -17,10 +23,14 @@ router.post('/registry', (req, res) => {
   }
 });
 
-router.post('/login', [
-  body('email').isEmail().withMessage('Email must be valid'),
-  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
-], AuthController.login);
+router.post(
+  '/login', 
+  [
+    body('email').isEmail().withMessage('Email must be valid'),
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
+  ],
+  AuthController.login
+);
 
 router.get('/users', UserController.index);
 
@@ -33,11 +43,12 @@ router.get('/status', (req, res) => {
 });
 
 
-// router.get('/products', productController.index);
+router.get('/products', productController.index);
 
 
 router.post('/products', 
-  storageFile.single('file'),
+  s3Service.createUpload('volonterio-storage', 'products').single('file'),
+  authMiddleware,
   [
     body('title').notEmpty().withMessage('Title is required'),
     body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),

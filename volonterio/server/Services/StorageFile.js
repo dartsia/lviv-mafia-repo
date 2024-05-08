@@ -1,20 +1,40 @@
+const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const multer = require('multer');
-const fs = require('fs');
-const dir = './uploads';
+const multerS3 = require('multer-s3');
 
-if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir, { recursive: true });
+class S3Service {
+    constructor() {
+        this.s3Client = new S3Client({
+            region: process.env.AWS_DEFAULT_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        });
+    }
+
+    createUpload(bucketName, folderName = '') {
+        const storage = multerS3({
+            s3: this.s3Client,
+            bucket: bucketName,
+            key: (req, file, cb) => {
+                const filename = `${Date.now().toString()}-${file.originalname}`;
+                const fullPath = folderName ? `${folderName}/${filename}` : filename;
+                req.uploadedFileName = fullPath; 
+                cb(null, fullPath);
+            }
+        });
+    
+        return multer({ storage: storage });
+    }
+    
+    getFileFromS3(bucketName, key) {
+        const getObjectParams = {
+            Bucket: bucketName,
+            Key: key
+        };
+        return this.s3Client.send(new GetObjectCommand(getObjectParams));
+    }
 }
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/') 
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname) 
-    }
-});
-
-const upload = multer({ storage: storage });
-
-module.exports = upload;
+module.exports = new S3Service();

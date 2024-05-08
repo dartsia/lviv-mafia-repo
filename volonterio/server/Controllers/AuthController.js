@@ -5,7 +5,7 @@ const User = require('../Models/User');
 class AuthController {
     async register(req, res) {
         const { name, email, password, surname } = req.body;
-        // console.log(email, password, name, confirmedPassword); 
+        const file = req.uploadedFileName || ''; 
         
         const errors = validationResult(req);
 
@@ -15,7 +15,7 @@ class AuthController {
         const salt = await bcrypt.genSalt(10);
         const passwordHashed = await bcrypt.hash(password, salt);
 
-        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
+        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}`, file });
         res.send(`Signed up with email: ${email}`);
     }
 
