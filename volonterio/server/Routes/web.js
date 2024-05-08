@@ -34,13 +34,17 @@ router.post(
 
 router.get('/users', UserController.index);
 
+router.get('/users/:id/verify', UserController.verify);
+
 router.get('/status', (req, res) => {
   if (req.session.userId) {
       res.send('User is logged in');
   } else {
-      res.send('User is not logged in');
+    res.send('User is not logged in');
   }
 });
+
+router.post('/forgot-password', AuthController.forgotPassword);
 
 
 router.get('/products', productController.index);
@@ -52,11 +56,18 @@ router.post('/products',
   [
     body('title').notEmpty().withMessage('Title is required'),
     body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),
-  ], 
+  ],
   productController.store
 );
 
-
+router.get('/product-info/:id',
+  // storageFile.single('file'),
+  // [
+  //   body('title').notEmpty().withMessage('Title is required'),
+  //   body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),
+  // ], 
+  productController.show
+);
 
 
 module.exports = router;

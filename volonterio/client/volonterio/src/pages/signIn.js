@@ -1,13 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import SIGNIN_BG from '../assets/photo1.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+
+    const userData = {
+        email,
+        password,
+    };
+
+    try {
+        const response = await fetch('/login', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        if (response.ok) {
+            const text = await response.text();
+            navigate('/'); // Перенаправити на головну сторінку
+            try {
+                const data = JSON.parse(text);
+                console.log(data);
+            }
+            catch (error) {
+                console.log(text);
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 
   useEffect(() => {
     setEmailError(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email));
@@ -56,7 +90,7 @@ const SignIn = () => {
                     <p className='text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>Забули пароль?</p>
                 </div>
                 <div className='w-full flex flex-col my-4'>
-                    <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
+                    <button onClick={handleSubmit} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
                         Увійти
                     </button>
                     <Link to="/signUp" className='w-full text-[#060606] my-2 font-semibold bg-white border-2 border-black rounded-md p-4 text-center flex items-center justify-center'>

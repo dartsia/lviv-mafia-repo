@@ -1,37 +1,95 @@
+import { useState, useEffect, useRef } from 'react';
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
-import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-  const navigation = [
-    // "Ще щось можна добавити",
-    "Список товарів",
-    "Волонтери",
-    "Про проєкт",
-    "Контакти"
-  ];
-  const paths = [
-    "/",
-    "/",
-    "/about",
-    "/",
-  ];
+const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
+  const [name, setUserName] = useState(''); //для імені користувача
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const hoverRef = useRef(null);
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+    fetch('/logout', {
+      method: 'POST',
+
+    })
+    .then(response => {
+      if (response.ok) {
+        setIsLoggedIn(false);
+        setUserName('');
+      } else {
+      }
+    })
+    .catch(error => {
+    })
+    .finally(() => {
+      setIsLoggingOut(false);
+    });
+  };
+
+  useEffect(() => {
+    let timer;
+    if (isHovered) {
+      timer = setTimeout(() => {
+        if (!hoverRef.current.contains(document.activeElement)) {
+          setIsHovered(false);
+        }
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [isHovered]);
+
+  // для перевірки входу
+  useEffect(() => {
+    fetch('/status')
+      .then(response => response.text())
+      .then(data => {
+        if (data === 'User is logged in') {
+          setIsLoggedIn(true);
+          setUserName(data.name);
+        }
+      });
+  }, []);
+
+  const logoutButton = (
+    <button
+      className="px-6 py-2 text-white bg-red-600 rounded-md md:ml-5"
+      onClick={handleLogout}
+      disabled={isLoggingOut}
+    >
+      {isLoggingOut ? 'Вихід...' : 'Вийти'}
+    </button>
+  );
+
+  let loginButton;
+if (isLoggedIn) {
+  loginButton = (
+    <>
+      <span className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Ви увійшли</span>
+      {logoutButton}
+    </>
+  );
+} else {
+  loginButton = <a href="/signIn" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Увійти</a>;
+}
+
 
   return (
-    <div className="w-full">
-      <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
-        {/* Logo  */}
+    <div className="w-full shadow-inner">
+      <nav className="container relative flex items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
         <Disclosure>
           {({ open }) => (
             <>
-              <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
+              <div className="flex items-center justify-between w-full lg:w-auto">
                 <a href="/">
                   <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
                     <span>
                       <img
                         src={Logo}
-                        alt="N"
+                        alt="LvivMafia"
                         width="32"
                         height="32"
                         className="w-8"
@@ -62,10 +120,10 @@ const Navbar = () => {
                     )}
                   </svg>
                 </Disclosure.Button>
-                <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
+                <Disclosure.Panel className="flex w-full my-5 lg:hidden">
                   <>
                     {navigation.map((item, index) => (
-                      <a key={index} href="/about" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none">
+                      <a key={index} href="/" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none">
                           {item}
                       </a>
                     ))}
@@ -75,27 +133,39 @@ const Navbar = () => {
             </>
           )}
         </Disclosure>
-        {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
             {navigation.map((menu, index) => (
               <li className="mr-3 nav__item" key={index}>
-                <a href={paths[index]} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800">
+                <a href={paths[index]} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800 transform hover:scale-105 transition-transform duration-200"
+                   onMouseEnter={() => menu === "Більше" && setIsHovered(true)}
+                   onMouseLeave={() => menu === "Більше" && setIsHovered(true)}
+                   ref={hoverRef}>
                     {menu}
                 </a>
+                {menu === "Більше" && isHovered && (
+                  <ul className="absolute w-32 py-2 mt-2 space-y-2 text-gray-800 bg-white border border-gray-100 rounded-md shadow-lg dark:text-gray-300 dark:bg-gray-800">
+                    {moreNavigation.map((item, index) => (
+                      <li key={index}>
+                        <a href={morePaths[index]} className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
+                          {item}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
+            
           </ul>
         </div>
-        <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          <a href="/signIn" className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">
-            Увійти
-          </a>
+        <div className="hidden mr-3 space-x-4 lg:flex nav__item lg:pl-4 pl-4">
+          {loginButton}
           <ThemeChanger />
         </div>
       </nav>
-    </div>
-  );
-}
+     </div>
+   );
+ }
+ export default Navbar;
 
-export default Navbar;
