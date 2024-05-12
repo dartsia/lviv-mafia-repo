@@ -1,5 +1,5 @@
 const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, './.env.example') })
+require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 let webRoutes = require('./Routes/web');
 let express = require('express');
 const session = require('express-session');

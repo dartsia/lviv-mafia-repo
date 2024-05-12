@@ -2,8 +2,13 @@ const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env.example') })
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 const sendEmail = require('../Services/SendEmail');
+
+// const crypto = require('crypto');
+// const jwtSecretKey = crypto.randomBytes(64).toString('hex');
+// console.log(jwtSecretKey);
 
 class AuthController {
     async register(req, res) {
@@ -67,9 +72,9 @@ class AuthController {
             // Generate a unique JWT token for the user that contains the user's id
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "10m", });
 
-            text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
+            const text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
                    If you didn't request a password reset, please ignore this email.`;
-            await sendEmail(email, "Reset Password", text);
+            await sendEmail(user.email, "Reset Password", text);
             res.status(201).send({ message: "An email has been sent to your account. Please check." });
         } catch (err) {
             res.status(500).send({ message: err.message });

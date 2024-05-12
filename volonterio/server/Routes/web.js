@@ -6,6 +6,7 @@ const AuthController = require('../Controllers/AuthController');
 const UserController = require('../Controllers/UserController');
 const productController = require('../Controllers/ProductController');
 const signUpValidation = require('../Validators/AuthValidator/signUpValidator');
+const resetPasswdValidation = require('../Validators/AuthValidator/resetPasswdValidator');
 const s3Service = require('../Services/StorageFile');
 const authMiddleware = require('../Middleware/AuthMiddleware');
 
@@ -46,6 +47,14 @@ router.get('/status', (req, res) => {
 
 router.post('/forgot-password', AuthController.forgotPassword);
 
+router.post('/reset-password/:token',  (req, res) => {
+  const errors = resetPasswdValidation(req);
+  if (errors.length > 0) {
+    return res.status(400).json({ errors: errors });
+  } else {
+    AuthController.resetPassword(req, res);
+  }
+});
 
 router.get('/products', productController.index);
 
