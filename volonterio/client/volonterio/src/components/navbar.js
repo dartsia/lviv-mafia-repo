@@ -24,6 +24,7 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
       if (response.ok) {
         setIsLoggedIn(false);
         setUserName('');
+        window.location.reload();
       } else {
       }
     })

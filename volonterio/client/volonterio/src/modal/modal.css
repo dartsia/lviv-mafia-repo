@@ -1,5 +1,5 @@
 .modal{
-   height: 100vh;
+    height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
@@ -13,6 +13,11 @@
     transition: 0.5s;
     z-index: 9999;
 }
+@media (max-width: 1200px) {
+    .modal {
+        transform: translateX(-100px);
+    }
+  }
 
 .modal.active{
     opacity: 1;

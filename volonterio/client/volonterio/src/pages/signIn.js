@@ -11,7 +11,10 @@ const SignIn = ({setModalActive}) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  const [formSubmitted, setFormSubmitted] = useState(false); // новий стан
+
   const handleSubmit = async () => {
+    setFormSubmitted(true); // встановлюємо стан форми як відправлену
 
     const userData = {
         email,
@@ -44,12 +47,16 @@ const SignIn = ({setModalActive}) => {
 };
 
   useEffect(() => {
-    setEmailError(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email));
-  }, [email]);
+    if (formSubmitted) {
+      setEmailError(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email));
+    }
+  }, [email, formSubmitted]);
 
   useEffect(() => {
-    setPasswordError(password.length < 8);
-  }, [password]);
+    if (formSubmitted) {
+      setPasswordError(password.length < 8);
+    }
+  }, [password, formSubmitted]);
 
   return (
     <div className="pb-60 w-full h-screen flex items-start">
@@ -58,7 +65,7 @@ const SignIn = ({setModalActive}) => {
             <img src={SIGNIN_BG} alt="loging_bg" className="w-full h-full" />
         </div>
         {/* Права частина сторінки логування */}
-        <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
+        <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-14  justify-between items-center'>
             <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Вітаємо!</h1>
 
             <div className='w-full flex flex-col max-w-[650px]'>
@@ -87,7 +94,7 @@ const SignIn = ({setModalActive}) => {
                         <input type="checkbox" className='w-4 h-4 mr-2'/>
                         <p>Запам'ятати мене</p>
                     </div>
-                    <p className='text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>Забули пароль?</p>
+                    <p className='flex text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>Забули пароль?</p>
                 </div>
                 <div className='w-full flex flex-col my-4'>
                     <button onClick={handleSubmit} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
