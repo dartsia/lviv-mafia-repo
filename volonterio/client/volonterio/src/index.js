@@ -7,6 +7,7 @@ import SignIn from './pages/signIn'
 import MainPage from './pages/mainPage'
 import AboutPage from './pages/About'
 import DonatePage from './pages/donate';
+import Contacts from './pages/Contacts';
 import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
 import ProductDetails  from './data/TestProductDetails';
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/donate" element={<DonatePage/>} />
           <Route path="/about" element={<AboutPage />} />
           {/* <Route path="/catalog" element={<Catalog />} /> */}
+          <Route path="/Contacts" element={<Contacts />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} /> 
           <Route path="/AddProduct" element={<AddProduct />} />
