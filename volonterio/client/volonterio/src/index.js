@@ -6,12 +6,12 @@ import SignUp from './pages/signUp'
 import SignIn from './pages/signIn'
 import MainPage from './pages/mainPage'
 import AboutPage from './pages/About'
-import Catalog from './pages/catalog_product'
 import DonatePage from './pages/donate';
 import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
-import Contacts from './pages/Contacts';
-import ProductDetail  from './pages/ProductDetailPage';
+import ProductDetails  from './data/TestProductDetails';
+import ProductsList from './data/ProductsList';
+
 
 const App = () => {
   return (
@@ -21,12 +21,13 @@ const App = () => {
           <Route path="/create_product" element={<AddProduct />} />
           <Route path="/donate" element={<DonatePage/>} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/catalog" element={<Catalog />} />
+          {/* <Route path="/catalog" element={<Catalog />} /> */}
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} /> 
           <Route path="/AddProduct" element={<AddProduct />} />
-          <Route path="/Contacts" element={<Contacts />} />
-          <Route path="/ProductDetail" element={<ProductDetail  />} />
+
+          <Route path="/catalog" element={<ProductsList />} /> 
+          <Route path="/product-info/:id" element={<ProductDetails/>} />
         </Routes>
     </Router>
   );

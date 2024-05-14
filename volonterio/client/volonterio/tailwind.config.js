@@ -12,6 +12,9 @@ module.exports = {
       colors: {
         trueGray: colors.neutral,
       },
+      animation: {
+        'spin': 'spin 1s linear infinite',
+      }
     },
     fontFamily: {
       sans: ["Inter", ...defaultTheme.fontFamily.sans],
