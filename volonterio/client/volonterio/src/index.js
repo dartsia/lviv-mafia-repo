@@ -2,8 +2,6 @@ import React from 'react';
 import './index.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import SignUp from './pages/signUp'
-import SignIn from './pages/signIn'
 import MainPage from './pages/mainPage'
 import AboutPage from './pages/About'
 import DonatePage from './pages/donate';
@@ -12,8 +10,6 @@ import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
 import ProductDetails  from './data/TestProductDetails';
 import ProductsList from './data/ProductsList';
-import PasswordRecovery from './pages/password_recovery';
-import New_password from "./pages/new_password";
 
 const App = () => {
   return (
@@ -25,15 +21,10 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
           {/* <Route path="/catalog" element={<Catalog />} /> */}
           <Route path="/Contacts" element={<Contacts />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/signIn" element={<SignIn />} /> 
           <Route path="/AddProduct" element={<AddProduct />} />
 
           <Route path="/catalog" element={<ProductsList />} /> 
           <Route path="/product-info/:id" element={<ProductDetails/>} />
-
-          <Route path="/PasswordRecovery" element={<PasswordRecovery />} /> 
-          <Route path="/NewPassword" element={<New_password />}/>
         </Routes>
     </Router>
   );

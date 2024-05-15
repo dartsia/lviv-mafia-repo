@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Додати імпорт для useEffect та useState
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; 
 import PasswordRecovery_BG from '../assets/photo1.jpg';
 
 const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
