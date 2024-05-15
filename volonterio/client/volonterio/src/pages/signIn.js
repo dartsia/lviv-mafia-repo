@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import SIGNIN_BG from '../assets/photo1.jpg';
 
-const SignIn = ({setModalActive}) => {
-
-    const [modalActive] = useState(false);
+const SignIn = ({setModalActive, setForgotPasswordModalActive}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
   const [formSubmitted, setFormSubmitted] = useState(false); // новий стан
 
+  function handleForgotPasswordClick() {
+    setModalActive(false); // закрити 
+    setForgotPasswordModalActive(true); // відкрити 
+  }
   const handleSubmit = async () => {
     setFormSubmitted(true); // встановлюємо стан форми як відправлену
 
@@ -59,6 +58,7 @@ const SignIn = ({setModalActive}) => {
     }
   }, [password, formSubmitted]);
 
+
   return (
     <div className="pb-60 w-full h-screen flex items-start">
         {/* Створив ліву частину сторінки логування у вигляді фото */}
@@ -95,9 +95,8 @@ const SignIn = ({setModalActive}) => {
                         <input type="checkbox" className='w-4 h-4 mr-2'/>
                         <p>Запам'ятати мене</p>
                     </div>
-                    <Link to="/PasswordRecovery" className='flex text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>
-                        Забули пароль?
-                    </Link>
+                    <a onClick={handleForgotPasswordClick} className='flex text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>
+                       Забули пароль?</a> 
                 </div>
                 <div className='w-full flex flex-col my-4'>
                     <button onClick={handleSubmit} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>

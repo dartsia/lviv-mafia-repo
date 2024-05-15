@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'; // Додати імпорт
 import { Link } from 'react-router-dom';
 import PasswordRecovery_BG from '../assets/photo1.jpg';
 
-const PasswordReset = () => {
+const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
@@ -14,6 +14,11 @@ const PasswordReset = () => {
             setPasswordError(newPassword !== confirmPassword || newPassword.length < 8);
         }
     }, [newPassword, confirmPassword, formSubmitted]);
+
+    function handleBackToSignInClick() {
+        setNewPasswordModalActive(false); // закрити вікно
+        setModalActive(true); // вхід
+    }
 
     const handleSubmit = () => {
         // Перевірка на співпадіння паролів
@@ -34,13 +39,13 @@ const PasswordReset = () => {
     }
 
     return (
-        <div className="p-40 w-full h-screen flex items-start">
+        <div className="pb-60 w-full h-screen flex items-start">
             {/* Ліва частина сторінки */}
             <div className='relative w-1/2 h-full flex flex-col'>
                 <img src={PasswordRecovery_BG} alt="PasswordRecovery_bg" className="w-full h-full" />
             </div>
             {/* Права частина сторінки */}
-            <div className='w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20 justify-between items-center'>
+            <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20 justify-between items-center'>
                 <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Відновлення паролю</h1>
 
                 <div className='w-full flex flex-col max-w-[650px]'>
@@ -74,9 +79,9 @@ const PasswordReset = () => {
                     )}
                 </div>
                 <div className='w-full flex items-center justify-between'>
-                    <Link to="/signIn" className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 cursor-pointer'>
+                    <a onClick={handleBackToSignInClick} className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 cursor-pointer'>
                         Назад до входу
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>

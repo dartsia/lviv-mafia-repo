@@ -12,7 +12,8 @@ import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
 import ProductDetails  from './data/TestProductDetails';
 import ProductsList from './data/ProductsList';
-
+import PasswordRecovery from './pages/password_recovery';
+import New_password from "./pages/new_password";
 
 const App = () => {
   return (
@@ -30,6 +31,9 @@ const App = () => {
 
           <Route path="/catalog" element={<ProductsList />} /> 
           <Route path="/product-info/:id" element={<ProductDetails/>} />
+
+          <Route path="/PasswordRecovery" element={<PasswordRecovery />} /> 
+          <Route path="/NewPassword" element={<New_password />}/>
         </Routes>
     </Router>
   );

@@ -4,9 +4,13 @@ import { Disclosure } from "@headlessui/react";
 import Logo from "../assets/logo.svg"
 import Modal from "../modal/modal";
 import SignIn from '../pages/signIn';
+import PasswordRecovery from '../pages/password_recovery';
+import NewPassword from '../pages/new_password';
 
 const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
-  const [modalActive, setModalActive] = useState(false); //модальне вікно
+  const [modalActive, setModalActive] = useState(false); //модальне вікно входу
+  const [forgotPasswordModalActive, setForgotPasswordModalActive] = useState(false); //для відновлення паролю
+  const [newPasswordModalActive, setNewPasswordModalActive] = useState(false); //для встановлення нового паролю
 
   const [isHovered, setIsHovered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
@@ -81,7 +85,15 @@ if (isLoggedIn) {
   loginButton = (
     <>
     <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
-    <Modal active={modalActive} setActive={setModalActive}><SignIn setModalActive={setModalActive}/></Modal>
+    <Modal active={modalActive} setActive={setModalActive}>
+      <SignIn setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive}/>
+    </Modal>
+    <Modal active={forgotPasswordModalActive} setActive={setForgotPasswordModalActive}>
+      <PasswordRecovery setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
+    </Modal>
+    <Modal active={newPasswordModalActive} setActive={setNewPasswordModalActive}>
+      <NewPassword setModalActive={setModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
+    </Modal>
     </>
   );
 }
