@@ -28,7 +28,7 @@ class AuthController {
         console.log(curUser._id)
 
         const url = `http://${process.env.HOST}:${process.env.PORT}/users/${curUser.id}/verify`;
-        await sendEmail(email, "Verify your Email", url);
+        await sendEmail(process.env.USER_EMAIL, email, "Verify your Email", url);
         res.status(201).send({ message: "An email has been sent to your account. Please verify." });
         // res.send(`Signed up with email: ${email}`);
     }
@@ -74,7 +74,7 @@ class AuthController {
 
             const text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
                    If you didn't request a password reset, please ignore this email.`;
-            await sendEmail(user.email, "Reset Password", text);
+            await sendEmail(process.env.USER_EMAIL, user.email, "Reset Password", text);
             res.status(201).send({ message: "An email has been sent to your account. Please check." });
         } catch (err) {
             res.status(500).send({ message: err.message });
