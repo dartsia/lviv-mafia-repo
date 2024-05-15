@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import background_BG from '../assets/photo2.jpg';
-import Modal from 'react-modal';
+import Modal from '../modal/modal';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');

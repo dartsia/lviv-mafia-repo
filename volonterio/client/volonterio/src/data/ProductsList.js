@@ -8,7 +8,7 @@ const ProductItem = ({ product }) => {
     return (
         <div className='card'>
             <div className='card_img'>
-                <img src={`https://volonterio-storage.s3.amazonaws.com/${product.file}`} alt={product.title} />
+                <img src={`${product.file}`} alt={product.title} />
             </div>
             <div className='card_header'>
                 <h2>{product.title}</h2>
