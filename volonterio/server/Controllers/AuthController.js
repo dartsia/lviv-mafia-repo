@@ -13,7 +13,6 @@ const sendEmail = require('../Services/SendEmail');
 class AuthController {
     async register(req, res) {
         const { name, email, password, surname } = req.body;
-        const file = req.uploadedFileName || ''; 
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -22,13 +21,13 @@ class AuthController {
         const salt = await bcrypt.genSalt(10);
         const passwordHashed = await bcrypt.hash(password, salt);
 
-        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}`, file });
+        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
 
         const curUser = await User.findOne({ email: email });
         console.log(curUser._id)
 
         const url = `http://${process.env.HOST}:${process.env.PORT}/users/${curUser.id}/verify`;
-        await sendEmail(email, "Verify your Email", url);
+        await sendEmail(process.env.USER_EMAIL, email, "Verify your Email", url);
         res.status(201).send({ message: "An email has been sent to your account. Please verify." });
         // res.send(`Signed up with email: ${email}`);
     }
@@ -74,7 +73,7 @@ class AuthController {
 
             const text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
                    If you didn't request a password reset, please ignore this email.`;
-            await sendEmail(user.email, "Reset Password", text);
+            await sendEmail(process.env.USER_EMAIL, user.email, "Reset Password", text);
             res.status(201).send({ message: "An email has been sent to your account. Please check." });
         } catch (err) {
             res.status(500).send({ message: err.message });

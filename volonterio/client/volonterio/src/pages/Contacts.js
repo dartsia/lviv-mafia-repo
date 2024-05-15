@@ -52,11 +52,40 @@ const Team = () => {
     },
   ];
 
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Ваше повідомлення відправлено:', e.target.elements.name.value, e.target.elements.email.value, e.target.elements.message.value);
-    e.target.reset();
+    console.log('Ваше повідомлення відправлено:', formData);
+
+    fetch('http://localhost:3001/Contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(() => {
+      console.log('Повідомлення відправлено');
+      setFormData({ name: '', email: '', message: '' }); // Очистка форми після відправки
+    })
+    .catch(error => console.error('Помилка відправлення:', error));
+
+    e.target.reset(); // Очистка HTML форми
   };
+
 
   return (
     <div className="p-40 w-full h-screen overflow-y-auto relative">
@@ -77,17 +106,17 @@ const Team = () => {
           <form onSubmit={handleSubmit} className="mt-4">
             <div className="flex flex-col mb-4">
               <label htmlFor="name" className="text-white">Ім'я:</label>
-              <input type="text" id="name" name="name" className="bg-gray-200 rounded-md p-2 text-black" required />
+              <input type="text" id="name" name="name" onChange={handleInputChange} className="bg-gray-200 rounded-md p-2 text-black" required />
             </div>
             <div className="flex flex-col mb-4">
               <label htmlFor="email" className="text-white">Електронна пошта:</label>
-              <input type="email" id="email" name="email" className="bg-gray-200 rounded-md p-2 text-black" required />
+              <input type="email" id="email" name="email" onChange={handleInputChange} className="bg-gray-200 rounded-md p-2 text-black" required />
             </div>
             <div className="flex flex-col mb-4">
               <label htmlFor="message" className="text-white">Повідомлення:</label>
-              <textarea id="message" name="message" rows="4" className="bg-gray-200 rounded-md p-2 text-black" required></textarea>
+              <textarea id="message" name="message" rows="4" onChange={handleInputChange} className="bg-gray-200 rounded-md p-2 text-black" required></textarea>
             </div>
-            <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md">Відправити</button>
+            <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md js-submit">Відправити</button>
           </form>
         </div>
       </div>
@@ -104,5 +133,6 @@ const Contacts = () =>{
       </div>
   );
 }
+
 
 export default Contacts;

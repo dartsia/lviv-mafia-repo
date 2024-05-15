@@ -3,6 +3,7 @@ import Container from '../components/container';
 import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import { useParams } from 'react-router-dom';
+import Cart from '../pages/Cart';
 
 const navigation = [
     "Додати позицію",
@@ -28,6 +29,7 @@ const navigation = [
 // Компонент для відображення деталей окремого товару
 const ProductDetails = () => {
     const [product, setProduct] = useState({});
+    const [cartItems, setCartItems] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
@@ -36,6 +38,20 @@ const ProductDetails = () => {
             .then(data => setProduct(data))
             .catch(error => console.error('There was an error!', error));
     }, [id]);
+
+    const addToCart = () => {
+      if (product) {
+        const itemInCart = cartItems.find(item => item.id === product.id);
+        if (itemInCart) {
+          const updatedCartItems = cartItems.map(item =>
+            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          );
+          setCartItems(updatedCartItems);
+        } else {
+          setCartItems([...cartItems, { ...product, quantity: 1 }]);
+        }
+      }
+    };
 
     return (
         <div>
@@ -58,14 +74,13 @@ const ProductDetails = () => {
                           className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-md cursor-pointer">
                           Повернутись назад
                         </a>
-                        <a
-                          href="/"
+                        <button
+                          onClick= {addToCart}
                           target="_blank"
                           rel="noopener"
                           className="flex px-8 py-4 text-lg font-medium text-center text-white bg-lime-600 rounded-md cursor-pointer">
-                          {/* svg картинка */}
-                          <span> Додати до кошика</span>
-                        </a>
+                          Додати до кошика
+                        </button>
                     </div>
                   </div>
                 </div>

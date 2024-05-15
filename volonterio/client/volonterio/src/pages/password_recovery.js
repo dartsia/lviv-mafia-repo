@@ -2,12 +2,24 @@ import { Link } from 'react-router-dom';
 import PasswordRecovery_BG from '../assets/photo1.jpg';
 import React, { useState, useEffect } from 'react';
 
-const PasswordRecovery = () => {
+const PasswordRecovery = ({setModalActive, setForgotPasswordModalActive, setNewPasswordModalActive }) => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [isSent, setIsSent] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
+
+    function handleBackToLogin() {
+        setModalActive(true)//повернутись до входу
+        setForgotPasswordModalActive(false); // закрити поточне модальне вікно
+        setNewPasswordModalActive(false); // відкрити нове модальне вікно
+    }
+
+    function handleNewPasswordClick() {
+        setModalActive(false);
+        setForgotPasswordModalActive(false); // закрити поточне модальне вікно
+        setNewPasswordModalActive(true); // відкрити нове модальне вікно
+    }
 
     useEffect(() => {
         if (formSubmitted) {
@@ -31,13 +43,13 @@ const PasswordRecovery = () => {
     }
 
     return (
-        <div className="p-40 w-full h-screen flex items-start">
+        <div className="pb-60 w-full h-screen flex items-start">
             {/* Ліва частина сторінки */}
             <div className='relative w-1/2 h-full flex flex-col'>
                 <img src={PasswordRecovery_BG} alt="PasswordRecovery_bg" className="w-full h-full" />
             </div>
             {/* Права частина сторінки */}
-            <div className='w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
+            <div className='pb-60 w-1/2 h-full bg-[#f5f5f5] flex flex-col p-20  justify-between items-center'>
                 <h1 className='text-4xl text-[#060606] font-semibold mx-auto'>Відновлення паролю</h1>
 
                 <div className='w-full flex flex-col max-w-[650px]'>
@@ -57,35 +69,21 @@ const PasswordRecovery = () => {
                     {isSent ? (
     <p className="text-green-500 mt-2">Лист із кодом для відновлення паролю відправлено на вашу пошту.</p>
 ) : (
-    <Link to="/NewPassword">
         <button onClick={() => {
             handleSubmit();
             setFormSubmitted(true);
+            handleNewPasswordClick();
         }} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
             Надіслати код
         </button>
-    </Link>
 )}
                 </div>
                 <div className='w-full flex items-center justify-between'>
-                    <Link to="/signIn" className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 cursor-pointer'>
+                    <a onClick={handleBackToLogin} className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 cursor-pointer'>
                         Назад до входу
-                    </Link>
+                    </a>
                 </div>
             </div>
-            {/* Модальне вікно */}
-            {isModalOpen && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-8 rounded-lg">
-                        {/* Вміст модального вікна */}
-                        <h2 className="text-2xl font-semibold mb-4">Модальне вікно</h2>
-                        <p>Тут може бути ваше модальне вікно з вмістом.</p>
-                        <button onClick={() => setIsModalOpen(false)} className="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-                            Закрити
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     )
 }
