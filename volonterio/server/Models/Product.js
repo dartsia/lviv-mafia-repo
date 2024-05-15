@@ -6,7 +6,9 @@ mongoose.connect('mongodb+srv://darchyk:l0veUkraine@volonterio-db.wkly9eh.mongod
   
   const schema = new mongoose.Schema({
     user_id: String,
-    title: String,
+    name: String,
+    organization: String,
+    price: String,
     description: String,
     file: String, 
   }, { collection: 'Products' });

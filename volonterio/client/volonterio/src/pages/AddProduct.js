@@ -28,6 +28,32 @@ const AddProduct = () => {
     console.log('Збереження фото:', productImage);
   };
 
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('name', productName);
+    formData.append('description', productDescription);
+    formData.append('price', productPrice);
+    formData.append('organization', organization);
+    formData.append('characteristic', productFeatures);
+    formData.append('image', document.getElementById('productImage').files[0]);
+  
+    try {
+      const response = await fetch('http://localhost:3001/products', {
+        method: 'POST',
+        body: formData  // відправляємо дані як FormData, а не як JSON
+      });
+  
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+  
+      const result = await response.text(); 
+      console.log('Product added:', result);
+    } catch (error) {
+      console.error('Failed to add product:', error);
+    }
+  };
+    
   return (
     <div className="p-40 w-full h-screen overflow-y-auto">
       <img src={background_BG} alt="Product" className="absolute inset-0 w-full h-full object-cover" />
@@ -70,14 +96,14 @@ const AddProduct = () => {
             name="productDescription"
             type="text"
             value={productDescription}
-            placeholder="Опис товару"
-            onChange={(e) => setProductDescription(e.target.value)}
+            placeholder="Опис"
+          onChange={(e) => setProductDescription(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <input
             name="productPrice"
             type="number"
             value={productPrice}
-            placeholder="Кількість доступних одиниць"
+            placeholder="Ціна товару"
             onChange={(e) => setProductPrice(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <input
@@ -88,14 +114,15 @@ const AddProduct = () => {
             onChange={(e) => setProductFeatures(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <div className='w-full flex flex-col my-4'>
-            <button  className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center' onClick={handleSaveImage}>
-            Додати товар до каталогу
+            <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center' onClick={handleSubmit}>
+              Додати товар до каталогу
             </button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AddProduct;
+
