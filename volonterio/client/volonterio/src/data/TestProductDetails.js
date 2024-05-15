@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import { useParams } from 'react-router-dom';
 import Cart from '../pages/Cart';
+import defaultImage from '../assets/not_found.jpg'
 
 const navigation = [
     "Додати позицію",
@@ -87,7 +88,7 @@ const ProductDetails = () => {
                 <div className="flex items-center justify-center w-full lg:w-1/2">
                   <div className="">
                     <img
-                      src={`https://volonterio-storage.s3.amazonaws.com/${product.file}`}
+                      src={product.file ? `${product.file}` : defaultImage}
                       width="516"
                       height="517"
                       className={"object-cover"}
