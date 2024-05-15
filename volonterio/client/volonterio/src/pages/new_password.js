@@ -20,7 +20,7 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
     }
     function handleCreateClick() {
         setNewPasswordModalActive(false); // закрити вікно
-        setModalActive(false); // вхід
+        setModalActive(true); // вхід
     }
 
     const handleSubmit = () => {
