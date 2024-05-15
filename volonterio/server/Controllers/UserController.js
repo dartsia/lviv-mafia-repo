@@ -31,10 +31,10 @@ class UserController {
     async contactUs (req,res) {
         try {
             const email = req.body.email;
-            const text = req.body.text;
+            const text = req.body.message;
             const usersName = req.body.name;
 
-            sendEmail(email, process.env.USER_EMAIL, `${usersName}'s question`, text);
+            await sendEmail(process.env.USER_EMAIL, email, `${usersName}'s question`, text);
             res.status(201).send({ message: "An email has been sent to us. Please wait for our answer." });
         } catch (error) {
             console.log(error);

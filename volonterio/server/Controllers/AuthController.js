@@ -13,7 +13,6 @@ const sendEmail = require('../Services/SendEmail');
 class AuthController {
     async register(req, res) {
         const { name, email, password, surname } = req.body;
-        const file = req.uploadedFileName || ''; 
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -22,7 +21,7 @@ class AuthController {
         const salt = await bcrypt.genSalt(10);
         const passwordHashed = await bcrypt.hash(password, salt);
 
-        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}`, file });
+        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
 
         const curUser = await User.findOne({ email: email });
         console.log(curUser._id)
