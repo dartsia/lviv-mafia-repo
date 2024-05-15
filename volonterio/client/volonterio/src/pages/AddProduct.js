@@ -5,6 +5,9 @@ import Modal from '../modal/modal';
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
+  const [productPrice, setProductPrice] = useState('');  // Виправлено: додано стан для ціни
+  const [organization, setOrganization] = useState('');  // Виправлено: додано стан для організації
+  const [productFeatures, setProductFeatures] = useState('');  // Виправлено: додано стан для характеристик
   const [productImage, setProductImage] = useState(null);
   const [errors, setErrors] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,24 +39,25 @@ const AddProduct = () => {
     formData.append('organization', organization);
     formData.append('characteristic', productFeatures);
     formData.append('image', document.getElementById('productImage').files[0]);
-  
+
     try {
       const response = await fetch('http://localhost:3001/products', {
         method: 'POST',
-        body: formData  // відправляємо дані як FormData, а не як JSON
+        body: formData
       });
-  
+
       if (!response.ok) {
         throw new Error('Something went wrong');
       }
-  
-      const result = await response.text(); 
+
+      const result = await response.text();
       console.log('Product added:', result);
+      setIsModalOpen(true);  // Показати модальне вікно, коли товар доданий
     } catch (error) {
       console.error('Failed to add product:', error);
     }
   };
-    
+
   return (
     <div className="p-40 w-full h-screen overflow-y-auto">
       <img src={background_BG} alt="Product" className="absolute inset-0 w-full h-full object-cover" />
@@ -76,8 +80,6 @@ const AddProduct = () => {
               <img src={productImage} alt="Product" className="w-full h-auto max-h-60 mb-2" />
             )}
           </div>
-        </div>
-        <div className='w-full flex flex-col'>
           <input
             name="productName"
             type="text"
@@ -86,14 +88,12 @@ const AddProduct = () => {
             onChange={(e) => setProductName(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'
           />
-          {errors.productName && <p className="text-red-500">{errors.productName}</p>}
-
           <input
             name="productDescription"
             type="text"
             value={productDescription}
             placeholder="Опис"
-          onChange={(e) => setProductDescription(e.target.value)}
+            onChange={(e) => setProductDescription(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <input
             name="productPrice"
@@ -116,14 +116,16 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Успішно"
-      >
-        <h2>Товар був успішно створений!</h2>
-        <button onClick={() => setIsModalOpen(false)}>Закрити</button>
-      </Modal>
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          contentLabel="Успішно"
+        >
+          <h2>Товар був успішно створений!</h2>
+          <button onClick={() => setIsModalOpen(false)}>Закрити</button>
+        </Modal>
+      )}
     </div>
   );
 };
