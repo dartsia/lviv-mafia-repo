@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import SIGNIN_BG from '../assets/photo1.jpg';
 
 const SignIn = ({setModalActive}) => {
@@ -94,7 +95,9 @@ const SignIn = ({setModalActive}) => {
                         <input type="checkbox" className='w-4 h-4 mr-2'/>
                         <p>Запам'ятати мене</p>
                     </div>
-                    <p className='flex text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>Забули пароль?</p>
+                    <Link to="/PasswordRecovery" className='flex text-sm font-medium whitespace-nowrap cursor-poineter underline underline-offset-2 cursor-pointer'>
+                        Забули пароль?
+                    </Link>
                 </div>
                 <div className='w-full flex flex-col my-4'>
                     <button onClick={handleSubmit} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>

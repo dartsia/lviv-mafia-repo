@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import axios from 'axios';
+import Cart from '..pages/Cart'; // замініть шлях_до_вашого_компонента_Cart на правильний шлях до вашого компонента Cart
 
 const navigation = [
   // "Ще щось можна добавити",
@@ -27,6 +28,7 @@ const morePaths = [
 
 const ProductDetailPage = ({ match }) => {
   const [product, setProduct] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
   const productId = match.params.id;
 
   useEffect(() => {
@@ -38,7 +40,21 @@ const ProductDetailPage = ({ match }) => {
         console.error('Помилка при отриманні продукту:', error);
       });
   }, [productId]);
-  
+
+  const addToCart = () => {
+    if (product) {
+      const itemInCart = cartItems.find(item => item.id === product.id);
+      if (itemInCart) {
+        const updatedCartItems = cartItems.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+        setCartItems(updatedCartItems);
+      } else {
+        setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      }
+    }
+  };
+
   if (!product) {
     return <div>Продукт не знайдено</div>;
   }
@@ -53,23 +69,23 @@ const ProductDetailPage = ({ match }) => {
         </div>
         <img src={product.image} alt={product.title} className="mb-4" />
         <p className="text-gray-700 mb-4">{product.description}</p>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button onClick={addToCart} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Додати до кошика
         </button>
       </div>
+      {cartItems.length > 0 && <Cart cartItems={cartItems} setCartItems={setCartItems} />}
     </div>
   );
 };
 
-const product = () =>{
-    return (
-        <div>
-            <Navbar navigation={navigation} moreNavigation={moreNavigation} paths={paths} morePaths={morePaths} />
-            <ProductDetailPage />
-            <Footer />
-        </div>
-    );
-}
-export default product;
+const Product = () => {
+  return (
+    <div>
+      <Navbar navigation={navigation} moreNavigation={moreNavigation} paths={paths} morePaths={morePaths} />
+      <ProductDetailPage />
+      <Footer />
+    </div>
+  );
+};
 
-
+export default Product;
