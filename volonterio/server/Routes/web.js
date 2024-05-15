@@ -80,4 +80,6 @@ router.get('/product-info/:id',
 
 router.get('/logout', AuthController.logout);
 
+router.post('/Contacts', UserController.contactUs);
+
 module.exports = router;
