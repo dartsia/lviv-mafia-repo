@@ -2,13 +2,28 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import defaultImage from '../assets/not_found.jpg'
 
 // Компонент для відображення окремого товару
+// const ProductItem = ({ product }) => {
+//     return (
+//         <div className='card'>
+//             <div className='card_img'>
+//                 <img src={`${product.file}`} alt={product.title} />
+//             </div>
+//             <div className='card_header'>
+//                 <h2>{product.title}</h2>
+//                 <p>{product.description}</p>
+//                 <Link to={`/product-info/${product._id}`} className='btn'>Детальніше</Link>
+//             </div>
+//         </div>
+//     );
+// };
 const ProductItem = ({ product }) => {
     return (
         <div className='card'>
             <div className='card_img'>
-                <img src={`${product.file}`} alt={product.title} />
+                <img src={product.file ? `${product.file}` : defaultImage} alt={product.title} onError={(e)=>{e.target.onerror = null; e.target.src=defaultImage}}/>
             </div>
             <div className='card_header'>
                 <h2>{product.title}</h2>
