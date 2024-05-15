@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import background_BG from '../assets/photo2.jpg';
+import Modal from 'react-modal';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
-  const [productPrice, setProductPrice] = useState('');
-  const [organization, setOrganization] = useState('');
-  const [productFeatures, setProductFeatures] = useState('');
   const [productImage, setProductImage] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -24,8 +24,46 @@ const AddProduct = () => {
     document.getElementById('productImage').click();
   };
 
-  const handleSaveImage = () => {
-    console.log('Збереження фото:', productImage);
+  const handleSaveImage = async () => {
+    const newErrors = {};
+    if (!productName.trim()) {
+      newErrors.productName = 'Назва товару є обов\'язковою';
+    }
+    if (!productDescription.trim()) {
+      newErrors.productDescription = 'Опис товару є обов\'язковим';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      try {
+        const response = await fetch('/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: productName,
+            description: productDescription,
+            productImage: productImage
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to add product');
+        }
+        
+        console.log('Product added successfully');
+        
+        setProductName('');
+        setProductDescription('');
+        setProductImage(null);
+        setErrors({});
+        setIsModalOpen(true); // Відкрити модальне вікно
+      } catch (error) {
+        console.error('Error adding product:', error);
+      }
+    }
   };
 
   return (
@@ -58,14 +96,10 @@ const AddProduct = () => {
             value={productName}
             placeholder="Назва товару"
             onChange={(e) => setProductName(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="organization"
-            type="text"
-            value={organization}
-            placeholder="Організація"
-            onChange={(e) => setOrganization(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
+            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'
+          />
+          {errors.productName && <p className="text-red-500">{errors.productName}</p>}
+
           <input
             name="productDescription"
             type="text"
@@ -73,27 +107,22 @@ const AddProduct = () => {
             placeholder="Опис товару"
             onChange={(e) => setProductDescription(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="productPrice"
-            type="number"
-            value={productPrice}
-            placeholder="Кількість доступних одиниць"
-            onChange={(e) => setProductPrice(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="productFeatures"
-            type="text"
-            value={productFeatures}
-            placeholder="Характеристики товару"
-            onChange={(e) => setProductFeatures(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
+          {errors.productDescription && <p className="text-red-500">{errors.productDescription}</p>}
           <div className='w-full flex flex-col my-4'>
-            <button  className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center' onClick={handleSaveImage}>
-            Додати товар до каталогу
+            <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center' onClick={handleSaveImage}>
+              Додати товар до каталогу
             </button>
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Успішно"
+      >
+        <h2>Товар був успішно створений!</h2>
+        <button onClick={() => setIsModalOpen(false)}>Закрити</button>
+      </Modal>
     </div>
   )
 }

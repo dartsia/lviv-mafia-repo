@@ -1,31 +1,32 @@
 import { useState, useEffect, useRef } from 'react';
 import ThemeChanger from "./DarkSwitch";
 import { Disclosure } from "@headlessui/react";
+import { RiShoppingCartLine } from 'react-icons/ri'; // Імпортуємо іконку
 import Logo from "../assets/logo.svg"
 import Modal from "../modal/modal";
 import SignIn from '../pages/signIn';
+import Cart from '../pages/Cart';
 
-const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
-  const [modalActive, setModalActive] = useState(false); //модальне вікно
-
+const Navbar = ({ navigation, moreNavigation, paths, morePaths }) => {
+  const [modalActive, setModalActive] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
-  const [name, setUserName] = useState(''); //для імені користувача
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setUserName] = useState('');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
   const hoverRef = useRef(null);
 
   const handleLogout = () => {
     setIsLoggingOut(true);
     fetch('/logout', {
       method: 'GET',
-
     })
     .then(response => {
       if (response.ok) {
         setIsLoggedIn(false);
         setUserName('');
-        window.location.reload();
-      } else {
       }
     })
     .catch(error => {
@@ -33,6 +34,16 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
     .finally(() => {
       setIsLoggingOut(false);
     });
+  };
+
+  const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+  };
+
+  const removeFromCart = (index) => {
+    const newCartItems = [...cartItems];
+    newCartItems.splice(index, 1);
+    setCartItems(newCartItems);
   };
 
   useEffect(() => {
@@ -47,7 +58,6 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
     return () => clearTimeout(timer);
   }, [isHovered]);
 
-  // для перевірки входу
   useEffect(() => {
     fetch('/status')
       .then(response => response.text())
@@ -58,6 +68,17 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
         }
       });
   }, []);
+
+  useEffect(() => {
+    const cartItemsCount = localStorage.getItem('cartItems');
+    if (cartItemsCount) {
+      setCartItems(JSON.parse(cartItemsCount));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const logoutButton = (
     <button
@@ -70,22 +91,21 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
   );
 
   let loginButton;
-if (isLoggedIn) {
-  loginButton = (
-    <>
-      <span className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Ви увійшли</span>
-      {logoutButton}
-    </>
-  );
-} else {
-  loginButton = (
-    <>
-    <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
-    <Modal active={modalActive} setActive={setModalActive}><SignIn setModalActive={setModalActive}/></Modal>
-    </>
-  );
-}
-
+  if (isLoggedIn) {
+    loginButton = (
+      <>
+        <span className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Ви увійшли</span>
+        {logoutButton}
+      </>
+    );
+  } else {
+    loginButton = (
+      <>
+      <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
+      <Modal active={modalActive} setActive={setModalActive}><SignIn setModalActive={setModalActive}/></Modal>
+      </>
+    );
+  }
 
   return (
     <div className="w-full shadow-inner">
@@ -171,11 +191,27 @@ if (isLoggedIn) {
         </div>
         <div className="hidden mr-3 space-x-4 lg:flex nav__item lg:pl-4 pl-4">
           {loginButton}
+          <button
+  onClick={() => setIsCartOpen(!isCartOpen)} // Змінюємо стейт isCartOpen при кліку на кнопку
+  className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer"
+>
+  <RiShoppingCartLine size={24} />
+  {cartItems.length > 0 && `(${cartItems.length})`}
+</button>
+{isCartOpen && (
+  <Cart
+    cartItems={cartItems}
+    setCartItems={setCartItems}
+    isOpen={isCartOpen}
+    setOpen={setIsCartOpen}
+  />
+)}
+
           <ThemeChanger />
         </div>
       </nav>
-     </div>
-   );
- }
- export default Navbar;
+    </div>
+  );
+}
 
+export default Navbar;
