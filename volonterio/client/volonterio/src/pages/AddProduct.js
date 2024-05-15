@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import background_BG from '../assets/photo2.jpg';
+import Modal from '../modal/modal';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
-  const [productPrice, setProductPrice] = useState('');
-  const [organization, setOrganization] = useState('');
-  const [productFeatures, setProductFeatures] = useState('');
   const [productImage, setProductImage] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -84,14 +84,10 @@ const AddProduct = () => {
             value={productName}
             placeholder="Назва товару"
             onChange={(e) => setProductName(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="organization"
-            type="text"
-            value={organization}
-            placeholder="Організація"
-            onChange={(e) => setOrganization(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
+            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'
+          />
+          {errors.productName && <p className="text-red-500">{errors.productName}</p>}
+
           <input
             name="productDescription"
             type="text"
@@ -120,6 +116,14 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Успішно"
+      >
+        <h2>Товар був успішно створений!</h2>
+        <button onClick={() => setIsModalOpen(false)}>Закрити</button>
+      </Modal>
     </div>
   );
 };
