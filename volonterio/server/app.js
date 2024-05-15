@@ -3,6 +3,7 @@ require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 let webRoutes = require('./Routes/web');
 let express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(session({
 
 
 app.use(express.json());
+app.use(cors());
 app.use('/', webRoutes);
 
 app.listen(PORT, () => {
