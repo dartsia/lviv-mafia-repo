@@ -79,11 +79,11 @@ const Team = () => {
     })
     .then(() => {
       console.log('Повідомлення відправлено');
-      setFormData({ name: '', email: '', message: '' }); // Очистка форми після відправки
+      setFormData({ name: '', email: '', message: '' });
     })
     .catch(error => console.error('Помилка відправлення:', error));
 
-    e.target.reset(); // Очистка HTML форми
+    e.target.reset();
   };
 
 

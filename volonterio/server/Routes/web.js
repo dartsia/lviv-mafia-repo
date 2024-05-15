@@ -14,7 +14,6 @@ const authMiddleware = require('../Middleware/AuthMiddleware');
 
 router.post(
   '/registry',
-  s3Service.createUpload('volonterio-storage', 'users/avatar').single('file'),
    (req, res) => {
   const errors = signUpValidation(req);
   if (errors.length > 0) {
@@ -60,8 +59,8 @@ router.get('/products', productController.index);
 
 
 router.post('/products', 
-  s3Service.createUpload('volonterio-storage', 'products').single('file'),
-  authMiddleware,
+  s3Service.createUpload('volonterio-storage', 'products').single('image'),
+  // authMiddleware,
   [
     body('title').notEmpty().withMessage('Title is required'),
     body('description').notEmpty().withMessage('Description is required').isLength({ max: 255 }).withMessage('Description must be less than 256 characters'),

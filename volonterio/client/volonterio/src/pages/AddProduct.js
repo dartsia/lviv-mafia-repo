@@ -24,48 +24,36 @@ const AddProduct = () => {
     document.getElementById('productImage').click();
   };
 
-  const handleSaveImage = async () => {
-    const newErrors = {};
-    if (!productName.trim()) {
-      newErrors.productName = 'Назва товару є обов\'язковою';
-    }
-    if (!productDescription.trim()) {
-      newErrors.productDescription = 'Опис товару є обов\'язковим';
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    } else {
-      try {
-        const response = await fetch('/products', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title: productName,
-            description: productDescription,
-            productImage: productImage
-          }),
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to add product');
-        }
-        
-        console.log('Product added successfully');
-        
-        setProductName('');
-        setProductDescription('');
-        setProductImage(null);
-        setErrors({});
-        setIsModalOpen(true); // Відкрити модальне вікно
-      } catch (error) {
-        console.error('Error adding product:', error);
-      }
-    }
+  const handleSaveImage = () => {
+    console.log('Збереження фото:', productImage);
   };
 
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('name', productName);
+    formData.append('description', productDescription);
+    formData.append('price', productPrice);
+    formData.append('organization', organization);
+    formData.append('characteristic', productFeatures);
+    formData.append('image', document.getElementById('productImage').files[0]);
+  
+    try {
+      const response = await fetch('http://localhost:3001/products', {
+        method: 'POST',
+        body: formData  // відправляємо дані як FormData, а не як JSON
+      });
+  
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+  
+      const result = await response.text(); 
+      console.log('Product added:', result);
+    } catch (error) {
+      console.error('Failed to add product:', error);
+    }
+  };
+    
   return (
     <div className="p-40 w-full h-screen overflow-y-auto">
       <img src={background_BG} alt="Product" className="absolute inset-0 w-full h-full object-cover" />
@@ -104,12 +92,25 @@ const AddProduct = () => {
             name="productDescription"
             type="text"
             value={productDescription}
-            placeholder="Опис товару"
-            onChange={(e) => setProductDescription(e.target.value)}
+            placeholder="Опис"
+          onChange={(e) => setProductDescription(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          {errors.productDescription && <p className="text-red-500">{errors.productDescription}</p>}
+          <input
+            name="productPrice"
+            type="number"
+            value={productPrice}
+            placeholder="Ціна товару"
+            onChange={(e) => setProductPrice(e.target.value)}
+            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
+          <input
+            name="productFeatures"
+            type="text"
+            value={productFeatures}
+            placeholder="Характеристики товару"
+            onChange={(e) => setProductFeatures(e.target.value)}
+            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <div className='w-full flex flex-col my-4'>
-            <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center' onClick={handleSaveImage}>
+            <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center' onClick={handleSubmit}>
               Додати товар до каталогу
             </button>
           </div>
@@ -124,7 +125,8 @@ const AddProduct = () => {
         <button onClick={() => setIsModalOpen(false)}>Закрити</button>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default AddProduct;
+
