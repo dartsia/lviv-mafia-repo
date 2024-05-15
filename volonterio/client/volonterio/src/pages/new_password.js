@@ -18,6 +18,10 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
         setNewPasswordModalActive(false); // закрити вікно
         setModalActive(true); // вхід
     }
+    function handleCreateClick() {
+        setNewPasswordModalActive(false); // закрити вікно
+        setModalActive(false); // вхід
+    }
 
     const handleSubmit = () => {
         // Перевірка на співпадіння паролів
@@ -35,6 +39,7 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
 
         // Логіка для відправлення нового паролю
         // setIsReset(true);
+        handleCreateClick();
     }
 
     return (

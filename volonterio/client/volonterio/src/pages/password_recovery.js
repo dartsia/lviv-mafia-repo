@@ -39,7 +39,7 @@ const PasswordRecovery = ({setModalActive, setForgotPasswordModalActive, setNewP
         // setIsSent(true);
 
         // Відкриття модального вікна
-        setIsModalOpen(true);
+        handleNewPasswordClick();
     }
 
     return (
@@ -72,7 +72,6 @@ const PasswordRecovery = ({setModalActive, setForgotPasswordModalActive, setNewP
         <button onClick={() => {
             handleSubmit();
             setFormSubmitted(true);
-            handleNewPasswordClick();
         }} className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center'>
             Надіслати код
         </button>
