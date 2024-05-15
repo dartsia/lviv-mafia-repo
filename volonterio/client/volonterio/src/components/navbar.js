@@ -190,4 +190,3 @@ if (isLoggedIn) {
    );
  }
  export default Navbar;
-
