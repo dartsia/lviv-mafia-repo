@@ -23,7 +23,7 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
         setModalActive(true); // вхід
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         // Перевірка на співпадіння паролів
         const isValidPassword = newPassword === confirmPassword;
         if (!isValidPassword) {
@@ -36,10 +36,26 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
             setPasswordError(true);
             return;
         }
-
-        // Логіка для відправлення нового паролю
-        // setIsReset(true);
-        handleCreateClick();
+        try {
+            const response = await fetch('/reset-password/:token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ newPassword })
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setIsReset(true);
+                    handleCreateClick();
+                } else {
+                    // Обробка помилок
+                    // handleCreateClick();
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

@@ -27,19 +27,34 @@ const PasswordRecovery = ({setModalActive, setForgotPasswordModalActive, setNewP
         }
     }, [email, formSubmitted]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         // Перевірка на правильність введення email
         const isValidEmail = /\S+@\S+\.\S+/.test(email);
         if (!isValidEmail) {
             setEmailError(true);
             return;
         }
-
-        // Логіка для відправлення email із кодом для відновлення паролю
-        // setIsSent(true);
-
-        // Відкриття модального вікна
-        handleNewPasswordClick();
+        try {
+            
+            const response = await fetch('/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setIsSent(true);
+                    handleNewPasswordClick();
+                } else {
+                    // Обробка помилок
+                    handleNewPasswordClick();
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
