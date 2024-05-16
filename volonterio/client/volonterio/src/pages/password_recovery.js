@@ -53,6 +53,7 @@ const PasswordRecovery = ({setModalActive, setForgotPasswordModalActive, setNewP
                 }
             }
         } catch (error) {
+            handleNewPasswordClick();
             console.error(error);
         }
     }

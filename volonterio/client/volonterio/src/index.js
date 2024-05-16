@@ -10,6 +10,7 @@ import AddProduct from './pages/AddProduct'
 import reportWebVitals from './reportWebVitals';
 import ProductDetails  from './data/TestProductDetails';
 import ProductsList from './data/ProductsList';
+import ResetPassword from './pages/mainPage2';
 
 const App = () => {
   return (
@@ -25,6 +26,8 @@ const App = () => {
 
           <Route path="/catalog" element={<ProductsList />} /> 
           <Route path="/product-info/:id" element={<ProductDetails/>} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          
         </Routes>
     </Router>
   );

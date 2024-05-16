@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'; 
+import { useParams } from 'react-router-dom';
 import PasswordRecovery_BG from '../assets/photo1.jpg';
 
 const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
     const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmedPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     const [isReset, setIsReset] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
-
+    const params = useParams();
+    const token = params.token;
     useEffect(() => {
         if (formSubmitted) {
-            setPasswordError(newPassword !== confirmPassword || newPassword.length < 8);
+            setPasswordError(newPassword !== confirmedPassword || newPassword.length < 8);
         }
-    }, [newPassword, confirmPassword, formSubmitted]);
+    }, [newPassword, confirmedPassword, formSubmitted]);
 
     function handleBackToSignInClick() {
         setNewPasswordModalActive(false); // закрити вікно
@@ -25,7 +27,7 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
 
     const handleSubmit = async() => {
         // Перевірка на співпадіння паролів
-        const isValidPassword = newPassword === confirmPassword;
+        const isValidPassword = newPassword === confirmedPassword;
         if (!isValidPassword) {
             setPasswordError(true);
             return;
@@ -37,10 +39,10 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
             return;
         }
         try {
-            const response = await fetch('/reset-password/:token', {
+            const response = await fetch(`/reset-password/${token}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ newPassword })
+                body: JSON.stringify({ newPassword, confirmedPassword })
             });
     
             if (response.ok) {
@@ -82,7 +84,7 @@ const PasswordReset = ({ setModalActive, setNewPasswordModalActive }) => {
                         <input
                             type="password"
                             placeholder='Підтвердіть новий пароль'
-                            value={confirmPassword}
+                            value={confirmedPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${passwordError ? 'border-red-500' : ''}`} />
                         {passwordError && <p className="text-red-500">Паролі не співпадають або пароль менше 8 символів.</p>}
