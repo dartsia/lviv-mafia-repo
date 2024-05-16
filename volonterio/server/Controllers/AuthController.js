@@ -68,24 +68,58 @@ class AuthController {
 
     };
 
+    // async forgotPassword(req, res) {
+    //     try {
+    //         // const user = await User.findOne({ email: req.body.email });
+    //         const user = await User.findOne({ email: email.trim() });
+
+    //         if (!user) {
+    //             return res.status(404).send({ message: "User not found" });
+    //         }
+
+    //         // Generate a unique JWT token for the user that contains the user's id
+    //         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: "10m", });
+
+    //         const text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
+    //                If you didn't request a password reset, please ignore this email.`;
+    //         await sendEmail(process.env.USER_EMAIL, user.email, "Reset Password", text);
+    //         res.status(201).send({ message: "An email has been sent to your account. Please check." });
+    //     } catch (err) {
+    //         res.status(500).send({ message: err.message });
+    //     }
+    // };
     async forgotPassword(req, res) {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
                 return res.status(404).send({ message: "User not found" });
             }
-
+    
             // Generate a unique JWT token for the user that contains the user's id
-            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "10m", });
-
+            let token;
+            try {
+                token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "10m", });
+            } catch (err) {
+                console.error("Error generating JWT token: ", err);
+                throw err;
+            }
+    
             const text = `Click on the following link to reset your password: http://localhost:3000/reset-password/${token} \
                    If you didn't request a password reset, please ignore this email.`;
-            await sendEmail(process.env.USER_EMAIL, user.email, "Reset Password", text);
+            try {
+                await sendEmail(process.env.USER_EMAIL, user.email, "Reset Password", text);
+            } catch (err) {
+                console.error("Error sending email: ", err);
+                throw err;
+            }
+            
             res.status(201).send({ message: "An email has been sent to your account. Please check." });
         } catch (err) {
+            console.error("Error in forgotPassword: ", err);
             res.status(500).send({ message: err.message });
         }
     };
+    
 
     async resetPassword(req, res) {
         try {

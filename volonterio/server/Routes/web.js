@@ -46,7 +46,7 @@ router.get('/status', (req, res) => {
 
 router.post('/forgot-password', AuthController.forgotPassword);
 
-router.post('/reset-password/:token',  (req, res) => {
+router.post('/reset-password/:token', (req, res) => {
   const errors = resetPasswdValidation(req);
   if (errors.length > 0) {
     return res.status(400).json({ errors: errors });
@@ -54,6 +54,8 @@ router.post('/reset-password/:token',  (req, res) => {
     AuthController.resetPassword(req, res);
   }
 });
+// router.post('/reset-password/:token',AuthController.resetPassword);
+
 
 router.get('/products', productController.index);
 
