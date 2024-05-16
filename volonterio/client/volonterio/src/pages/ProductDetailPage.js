@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import axios from 'axios';
-import Cart from '..pages/Cart'; // замініть шлях_до_вашого_компонента_Cart на правильний шлях до вашого компонента Cart
+import Cart from './Cart'; // замініть шлях_до_вашого_компонента_Cart на правильний шлях до вашого компонента Cart
 
 const navigation = [
   // "Ще щось можна добавити",
@@ -70,8 +70,8 @@ const ProductDetailPage = ({ match }) => {
         <img src={product.image} alt={product.title} className="mb-4" />
         <p className="text-gray-700 mb-4">{product.description}</p>
         <button onClick={addToCart} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Додати до кошика
-        </button>
+  Додати до кошика
+</button>
       </div>
       {cartItems.length > 0 && <Cart cartItems={cartItems} setCartItems={setCartItems} />}
     </div>
@@ -79,10 +79,15 @@ const ProductDetailPage = ({ match }) => {
 };
 
 const Product = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <div>
       <Navbar navigation={navigation} moreNavigation={moreNavigation} paths={paths} morePaths={morePaths} />
-      <ProductDetailPage />
+      <ProductDetailPage addToCart={() => setOpen(true)} />
+      {/* Позначка коментаря: Додали компонент Cart та передали необхідні пропси */}
+      <Cart cartItems={cartItems} setCartItems={setCartItems} isOpen={isOpen} setOpen={setOpen} />
       <Footer />
     </div>
   );

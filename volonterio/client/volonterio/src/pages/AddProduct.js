@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
 import background_BG from '../assets/photo2.jpg';
-import Modal from '../modal/modal';
+import Footer from '../components/footer';
+import Navbar from "../components/navbar";
+import axios from 'axios';
+
+const navigation = [
+  // "Ще щось можна добавити",
+  "Cписок товарів",
+  "Про проєкт",
+  "Більше",
+];
+const moreNavigation = [
+  "Волонтери",
+  "Контакти",
+];
+const paths = [
+  "/catalog",
+  "/about",
+  ""
+];
+const morePaths = [
+  "/",
+  "/Contacts",
+];
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
-  const [productPrice, setProductPrice] = useState('');  // Виправлено: додано стан для ціни
-  const [organization, setOrganization] = useState('');  // Виправлено: додано стан для організації
-  const [productFeatures, setProductFeatures] = useState('');  // Виправлено: додано стан для характеристик
   const [productImage, setProductImage] = useState(null);
+  const [organization, setOrganization] = useState('');  
   const [errors, setErrors] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -35,29 +55,27 @@ const AddProduct = () => {
     const formData = new FormData();
     formData.append('name', productName);
     formData.append('description', productDescription);
-    formData.append('price', productPrice);
     formData.append('organization', organization);
-    formData.append('characteristic', productFeatures);
     formData.append('image', document.getElementById('productImage').files[0]);
-
+  
     try {
       const response = await fetch('http://localhost:3001/products', {
         method: 'POST',
         body: formData
       });
-
+  
       if (!response.ok) {
         throw new Error('Something went wrong');
       }
-
-      const result = await response.text();
+  
+      const result = await response.text(); 
       console.log('Product added:', result);
-      setIsModalOpen(true);  // Показати модальне вікно, коли товар доданий
+      setIsModalOpen(true);  
     } catch (error) {
       console.error('Failed to add product:', error);
     }
   };
-
+    
   return (
     <div className="p-40 w-full h-screen overflow-y-auto">
       <img src={background_BG} alt="Product" className="absolute inset-0 w-full h-full object-cover" />
@@ -80,6 +98,8 @@ const AddProduct = () => {
               <img src={productImage} alt="Product" className="w-full h-auto max-h-60 mb-2" />
             )}
           </div>
+        </div>
+        <div className='w-full flex flex-col'>
           <input
             name="productName"
             type="text"
@@ -88,6 +108,8 @@ const AddProduct = () => {
             onChange={(e) => setProductName(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none'
           />
+          {errors.productName && <p className="text-red-500">{errors.productName}</p>}
+
           <input
             name="productDescription"
             type="text"
@@ -95,40 +117,30 @@ const AddProduct = () => {
             placeholder="Опис"
             onChange={(e) => setProductDescription(e.target.value)}
             className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="productPrice"
-            type="number"
-            value={productPrice}
-            placeholder="Ціна товару"
-            onChange={(e) => setProductPrice(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-          <input
-            name="productFeatures"
-            type="text"
-            value={productFeatures}
-            placeholder="Характеристики товару"
-            onChange={(e) => setProductFeatures(e.target.value)}
-            className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
           <div className='w-full flex flex-col my-4'>
             <button className='w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center' onClick={handleSubmit}>
               Додати товар до каталогу
             </button>
           </div>
         </div>
+      </div> 
+      <div>
       </div>
-      {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={() => setIsModalOpen(false)}
-          contentLabel="Успішно"
-        >
-          <h2>Товар був успішно створений!</h2>
-          <button onClick={() => setIsModalOpen(false)}>Закрити</button>
-        </Modal>
-      )}
     </div>
   );
 };
 
-export default AddProduct;
+const AddProducts = () => {
+  return (
+    <div>
+      <Navbar navigation={navigation} moreNavigation={moreNavigation} paths={paths} morePaths={morePaths} />
+      <div className="relative">
+        <img src={background_BG} alt="Product" className="absolute inset-0 w-full h-full object-cover" />
+        <AddProduct />
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
+export default AddProducts;

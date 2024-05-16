@@ -6,12 +6,16 @@ import Modal from "../modal/modal";
 import SignIn from '../pages/signIn';
 import PasswordRecovery from '../pages/password_recovery';
 import NewPassword from '../pages/new_password';
+import { RiShoppingCartLine } from 'react-icons/ri';
+import Cart from '../pages/Cart';
 
 const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
   const [modalActive, setModalActive] = useState(false); //модальне вікно входу
   const [forgotPasswordModalActive, setForgotPasswordModalActive] = useState(false); //для відновлення паролю
   const [newPasswordModalActive, setNewPasswordModalActive] = useState(false); //для встановлення нового паролю
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  
   const [isHovered, setIsHovered] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); //залогінений чи ні
   const [name, setUserName] = useState(''); //для імені користувача
@@ -74,30 +78,29 @@ const Navbar = ({ navigation, moreNavigation, paths, morePaths}) => {
   );
 
   let loginButton;
-if (isLoggedIn) {
-  loginButton = (
-    <>
-      <span className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Ви увійшли</span>
-      {logoutButton}
-    </>
-  );
-} else {
-  loginButton = (
-    <>
-    <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
-    <Modal active={modalActive} setActive={setModalActive}>
-      <SignIn setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive}/>
-    </Modal>
-    <Modal active={forgotPasswordModalActive} setActive={setForgotPasswordModalActive}>
-      <PasswordRecovery setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
-    </Modal>
-    <Modal active={newPasswordModalActive} setActive={setNewPasswordModalActive}>
-      <NewPassword setModalActive={setModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
-    </Modal>
-    </>
-  );
-}
-
+  if (isLoggedIn) {
+    loginButton = (
+      <>
+        <span className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5">Ви увійшли</span>
+        {logoutButton}
+      </>
+    );
+  } else {
+    loginButton = (
+      <>
+        <a onClick={()=>setModalActive(true)} className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer">Увійти</a> 
+        <Modal active={modalActive} setActive={setModalActive}>
+          <SignIn setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive}/>
+        </Modal>
+        <Modal active={forgotPasswordModalActive} setActive={setForgotPasswordModalActive}>
+          <PasswordRecovery setModalActive={setModalActive} setForgotPasswordModalActive={setForgotPasswordModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
+        </Modal>
+        <Modal active={newPasswordModalActive} setActive={setNewPasswordModalActive}>
+          <NewPassword setModalActive={setModalActive} setNewPasswordModalActive={setNewPasswordModalActive}/>
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <div className="w-full shadow-inner">
@@ -157,32 +160,68 @@ if (isLoggedIn) {
         </Disclosure>
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
-            {navigation.map((menu, index) => (
-              <li className="mr-3 nav__item" key={index}>
-                <a href={paths[index]} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800 transform hover:scale-105 transition-transform duration-200"
-                   onMouseEnter={() => menu === "Більше" && setIsHovered(true)}
-                   onMouseLeave={() => menu === "Більше" && setIsHovered(true)}
-                   ref={hoverRef}>
-                    {menu}
-                </a>
-                {menu === "Більше" && isHovered && (
-                  <ul className="absolute w-32 py-2 mt-2 space-y-2 text-gray-800 bg-white border border-gray-100 rounded-md shadow-lg dark:text-gray-300 dark:bg-gray-800">
-                    {moreNavigation.map((item, index) => (
-                      <li key={index}>
-                        <a href={morePaths[index]} className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-            
+          {navigation.map((item, index) => (
+  <li className="mr-3 nav__item" key={index}>
+    <a href={paths[index]} className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800 transform hover:scale-105 transition-transform duration-200"
+       onMouseEnter={() => item === "Більше" && setIsHovered(true)}
+       onMouseLeave={() => item === "Більше" && setIsHovered(true)}
+       ref={hoverRef}>
+        {item}
+    </a>
+    {item === "Більше" && isHovered && (
+      <ul className="absolute w-32 py-2 mt-2 space-y-2 text-gray-800 bg-white border border-gray-100 rounded-md shadow-lg dark:text-gray-300 dark:bg-gray-800">
+        {moreNavigation.map((item, index) => (
+          <li key={index}>
+            <a href={morePaths[index]} className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
+              {item}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </li>
+))}
+            {isLoggedIn && (
+  <li className="mr-3 nav__item" key="add-position">
+    <a href="/add-position" className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800 transform hover:scale-105 transition-transform duration-200"
+       onMouseEnter={() => setIsHovered(true)}
+       onMouseLeave={() => setIsHovered(true)} 
+       ref={hoverRef}>
+      Додати позицію
+    </a>
+    {isHovered && (
+      <ul className="absolute w-32 py-2 mt-2 space-y-2 text-gray-800 bg-white border border-gray-100 rounded-md shadow-lg dark:text-gray-300 dark:bg-gray-800">
+        {moreNavigation.map((item, index) => (
+          <li key={index}>
+            <a href={morePaths[index]} className="block px-4 py-2 text-sm transition-colors duration-200 transform rounded-md hover:bg-indigo-500 hover:text-white">
+              {item}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </li>
+)}
+
           </ul>
         </div>
         <div className="hidden mr-3 space-x-4 lg:flex nav__item lg:pl-4 pl-4">
           {loginButton}
+          <button
+  onClick={() => setIsCartOpen(!isCartOpen)} // Змінюємо стейт isCartOpen при кліку на кнопку
+  className="px-6 py-2 text-white bg-indigo-600 rounded-md md:ml-5 cursor-pointer"
+>
+  <RiShoppingCartLine size={24} />
+  {cartItems.length > 0 && `(${cartItems.length})`}
+</button>
+{isCartOpen && (
+  <Cart
+    cartItems={cartItems}
+    setCartItems={setCartItems}
+    isOpen={isCartOpen}
+    setOpen={setIsCartOpen}
+  />
+)}
           <ThemeChanger />
         </div>
       </nav>
