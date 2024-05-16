@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../components/footer';
 import Navbar from "../components/navbar";
 import axios from 'axios';
-import Cart from './Cart'; // замініть шлях_до_вашого_компонента_Cart на правильний шлях до вашого компонента Cart
+import Cart from './Cart';
 
 const navigation = [
   // "Ще щось можна добавити",
