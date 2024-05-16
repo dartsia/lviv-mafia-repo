@@ -21,15 +21,22 @@ class AuthController {
         const salt = await bcrypt.genSalt(10);
         const passwordHashed = await bcrypt.hash(password, salt);
 
-        User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
+        // User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
 
-        const curUser = await User.findOne({ email: email });
-        console.log(curUser._id)
+        // const curUser = await User.findOne({ email: email });
+        // console.log(curUser._id)
 
-        const url = `http://${process.env.HOST}:${process.env.PORT}/users/${curUser.id}/verify`;
+        // const url = `http://${process.env.HOST}:${process.env.PORT}/users/${curUser._id}/verify`;
+        // await sendEmail(process.env.USER_EMAIL, email, "Verify your Email", url);
+        // res.status(201).send({ message: "An email has been sent to your account. Please verify." });
+        // res.send(`Signed up with email: ${email}`);
+
+        const user = await User.create({ name: `${name}`, surname: `${surname}`, email: `${email}`, password: `${passwordHashed}` });
+
+        const url = `http://${process.env.HOST}:${process.env.PORT}/users/${user._id}/verify`;
         await sendEmail(process.env.USER_EMAIL, email, "Verify your Email", url);
         res.status(201).send({ message: "An email has been sent to your account. Please verify." });
-        // res.send(`Signed up with email: ${email}`);
+
     }
 
     async login(req, res) {
